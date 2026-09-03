@@ -1,71 +1,72 @@
-# PI2 — Sistema de Replay para Quadras Esportivas
+# TaGravado — Sistema de Replay para Quadras Esportivas
 
-Atletas amadores, treinadores e gestores de quadras esportivas enfrentam dificuldades para registrar e reviver momentos importantes de partidas e treinos.
+> Repositório principal do projeto **TaGravado** — concentra a documentação, o planejamento e os links para os repositórios técnicos (frontend e backend). Trabalho de conclusão do **Projeto Integrador 2 (2026/2) — Equipe 03**, sob orientação do professor Bruno Riccelli.
 
-Com esse sistema, propomos um SaaS White-Label de Replay** que permite:
+---
 
-1. **Gravação automática** de partidas e treinos em quadras esportivas
-2. **Replay instantâneo** acessível via aplicativo mobile
-3. **Compartilhamento** de melhores momentos em redes sociais
-4. **Transmissão ao vivo** para familiares e torcedores
-5. **Identidade visual personalizada** para cada arena (White-Label)
+## Sobre o projeto
+
+Nas quadras de esportes de areia, um pedido recorrente dos jogadores é ter acesso aos **replays das câmeras de segurança** para reviver os melhores momentos das partidas. Hoje esse fluxo é manual: o funcionário precisa abrir os arquivos da câmera, localizar o horário do clipe e enviá-lo ao cliente.
+
+**TaGravado** resolve isso com uma aplicação web conteinerizada que, ao pressionar um botão físico instalado na quadra, gera e disponibiliza automaticamente o clipe para download pelo cliente da arena. Numa segunda etapa, o sistema também oferecerá **reserva de horários** das quadras pela mesma plataforma.
+
+**Cliente/Parceiro:** Rennan — Arena Dunnas Beach.
+
+Detalhes completos (requisitos, arquitetura, impacto social, governança) em [`plano-de-projeto.md`](./plano-de-projeto.md).
+
+---
 
 ## Repositórios
 
 | Camada | Repositório | Stack |
 |---|---|---|
-| Frontend (SPA) | https://github.com/PI2-2026-2-equipe-03/pi2-frontend | React 19 · Vite · Tailwind CSS 4 |
-| Backend (API REST) | https://github.com/PI2-2026-2-equipe-03/pi2-backend | Fastify 5 · Prisma 7 · TypeScript |
+| Frontend (SPA) | [pi2-frontend](https://github.com/PI2-2026-2-equipe-03/pi2-frontend) | React 19 · Vite · Tailwind CSS 4 |
+| Backend (API REST) | [pi2-backend](https://github.com/PI2-2026-2-equipe-03/pi2-backend) | Fastify 5 · Prisma 7 · TypeScript |
+| Documentação | [PI2-2026-2-equipe-03](https://github.com/PI2-2026-2-equipe-03/PI2-2026-2-equipe-03) | (você está aqui) |
 
-## Modelo de dados (MER)
+---
 
-![Diagrama Entidade-Relacionamento do TNY](./)
+## Equipe
 
-Entidades centrais: `...`.
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/KaikMcpe12"><img src="https://github.com/KaikMcpe12.png" width="80" alt="Kaik"/><br/><sub><b>Kaik</b></sub></a><br/>Frontend</td>
+    <td align="center"><a href="https://github.com/alanbfx-dev"><img src="https://github.com/alanbfx-dev.png" width="80" alt="Alan"/><br/><sub><b>Alan</b></sub></a><br/>Frontend</td>
+    <td align="center"><a href="https://github.com/pedroolivsz"><img src="https://github.com/pedroolivsz.png" width="80" alt="Pedro"/><br/><sub><b>Pedro</b></sub></a><br/>Backend / Infra</td>
+    <td align="center"><a href="https://github.com/lucasrds401"><img src="https://github.com/lucasrds401.png" width="80" alt="Lucas"/><br/><sub><b>Lucas</b></sub></a><br/>Backend / Infra</td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/pablocosme"><img src="https://github.com/pablocosme.png" width="80" alt="Pablo"/><br/><sub><b>Pablo</b></sub></a><br/>Backend / Infra</td>
+    <td align="center"><a href="https://github.com/CristianoGolDeBiciclceta2018"><img src="https://github.com/CristianoGolDeBiciclceta2018.png" width="80" alt="Kauan"/><br/><sub><b>Kauan</b></sub></a><br/>Análise & Design</td>
+    <td align="center"><a href="https://github.com/laryssaszz"><img src="https://github.com/laryssaszz.png" width="80" alt="Laryssa"/><br/><sub><b>Laryssa</b></sub></a><br/>Análise & Design</td>
+    <td align="center"><a href="https://github.com/Rickfarias"><img src="https://github.com/Rickfarias.png" width="80" alt="Rick"/><br/><sub><b>Rick</b></sub></a><br/>QA / Testes</td>
+  </tr>
+</table>
 
-## Arquitetura
+---
 
-**a montar**
+## Roadmap
 
-## Como rodar (resumo)
+Milestones acompanhados em [milestones do repositório](https://github.com/PI2-2026-2-equipe-03/PI2-2026-2-equipe-03/milestones).
 
-Requer Node.js 22+. Rode backend e frontend em terminais separados:
+| Sprint | Foco | Status |
+|---|---|---|
+| **Sprint 0** | Setup dos repositórios, plano de projeto e governança Git | Em andamento |
+| **Sprint 1** | Levantamento de requisitos e prototipação inicial | A iniciar |
+| Sprints seguintes | Implementação (backend + frontend), integração com hardware, testes e deploy | A definir |
 
-```bash
-# Backend — API em http://localhost:3000 (Swagger em /docs)
-git clone https://github.com/PI2-2026-2-equipe-03/pi2-backend
-cd pi2-backend
-cp .env.example .env      # defina JWT_SECRET e DATABASE_URL
-npm install
-npm run db:migrate
-npm run db:seed           # opcional: dados de exemplo
-npm run dev
+Acordos de governança (PRs, revisão obrigatória, rastreabilidade de issues) descritos em [`plano-de-projeto.md` §5](./plano-de-projeto.md).
 
-# Frontend — SPA em http://localhost:5173
-git clone https://github.com/PI2-2026-2-equipe-03/pi2-frontend
-cd pi2-frontend
-cp .env.example .env      # VITE_API_URL aponta para o backend
-npm install
-npm run dev
-```
-
-Para o ambiente de produção com Docker (PostgreSQL + API) e detalhes de configuração,
-veja a documentação abaixo.
+---
 
 ## Documentação
 
-- **[Documentação técnica detalhada](documentacao-tecnica.md)** — arquitetura,
-  banco de dados, referência de rotas da API, testes, containerização e deploy.
-- **[Guia de instalação](instalacao.md)** — passo a passo de pré-requisitos, instalação e
-  variáveis de ambiente.
-- **[Design no Figma](./)** — protótipos e identidade visual do projeto.
+- [Plano de Projeto](./plano-de-projeto.md) — contexto, objetivos, papéis e governança.
+- [Documentação técnica](./documentacao-tecnica.md) — arquitetura e decisões técnicas (a preencher nas próximas sprints).
+- [Guia de instalação](./instalacao.md) — pré-requisitos e passo a passo (a preencher nas próximas sprints).
 
-## Stack
-
-- **Frontend:** --.
-- **Backend:** --.
-- **Banco:** SQLite (dev/testes) · PostgreSQL 16 (produção/Docker).
+---
 
 ## Licença
 
-[MIT](LICENSE)
+Distribuído sob a licença [MIT](./LICENSE).
