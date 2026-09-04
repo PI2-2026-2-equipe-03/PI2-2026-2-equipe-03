@@ -9,7 +9,7 @@ Com esse sistema, propomos um SaaS White-Label de Replay** que permite:
 3. **Compartilhamento** de melhores momentos em redes sociais
 4. **Transmissão ao vivo** para familiares e torcedores
 5. **Identidade visual personalizada** para cada arena (White-Label)
-
+2
 ## Repositórios
 
 | Camada | Repositório | Stack |
