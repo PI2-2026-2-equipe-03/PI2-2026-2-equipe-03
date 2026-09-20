@@ -1,6 +1,6 @@
 # Requisitos Não Funcionais
 
-## RNF-01 — Tema escuro e tema claro
+## RNF-01 - Tema escuro e tema claro
 
 O sistema deve permitir que usuários e administradores alternem entre os temas claro e escuro da interface.
 
@@ -8,7 +8,7 @@ O sistema deve permitir que usuários e administradores alternem entre os temas 
 
 ---
 
-## RNF-02 — Responsividade
+## RNF-02 - Responsividade
 
 O sistema deve adaptar sua interface aos diferentes dispositivos utilizados para acesso, incluindo dispositivos móveis, tablets e desktops.
 
@@ -16,7 +16,7 @@ O sistema deve adaptar sua interface aos diferentes dispositivos utilizados para
 
 ---
 
-## RNF-03 — Tempo de resposta
+## RNF-03 - Tempo de resposta
 
 O sistema deve apresentar respostas rápidas durante a utilização de suas funcionalidades e durante o download dos vídeos.
 
@@ -24,7 +24,7 @@ O sistema deve apresentar respostas rápidas durante a utilização de suas func
 
 ---
 
-## RNF-04 — Segurança de acesso
+## RNF-04 - Segurança de acesso
 
 O sistema deve controlar as tentativas de acesso dos usuários e garantir o funcionamento adequado para acessos simultâneos.
 
@@ -32,7 +32,7 @@ O sistema deve controlar as tentativas de acesso dos usuários e garantir o func
 
 ---
 
-## RNF-05 — Usabilidade
+## RNF-05 - Usabilidade
 
 O sistema deve possuir uma interface intuitiva, permitindo que novos usuários utilizem suas principais funcionalidades sem treinamento prévio.
 

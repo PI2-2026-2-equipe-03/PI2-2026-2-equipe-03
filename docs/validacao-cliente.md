@@ -1,4 +1,4 @@
-# Validação com o Cliente — TaGravado
+# Validação com o Cliente - TaGravado
 
 ## Objetivo da validação
 

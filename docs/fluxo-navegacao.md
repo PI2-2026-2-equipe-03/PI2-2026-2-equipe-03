@@ -1,4 +1,4 @@
-# Fluxo de Navegação — TaGravado
+# Fluxo de Navegação - TaGravado
 
 ## Fluxo do usuário
 
@@ -38,7 +38,7 @@ O sistema apresenta os resultados correspondentes aos filtros selecionados.
 
 ---
 
-## Fluxo alternativo — Área administrativa
+## Fluxo alternativo - Área administrativa
 
 ### 1. Login
 O administrador acessa a tela de Login e informa suas credenciais.

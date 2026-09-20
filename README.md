@@ -1,6 +1,6 @@
-# TaGravado — Sistema de Replay para Quadras Esportivas
+# TaGravado - Sistema de Replay para Quadras Esportivas
 
-> Repositório principal do projeto **TaGravado** — concentra a documentação, o planejamento e os links para os repositórios técnicos (frontend e backend). Trabalho de conclusão do **Projeto Integrador 2 (2026/2) — Equipe 03**, sob orientação do professor Bruno Riccelli.
+> Repositório principal do projeto **TaGravado** - concentra a documentação, o planejamento e os links para os repositórios técnicos (frontend e backend). Trabalho de conclusão do **Projeto Integrador 2 (2026/2) - Equipe 03**, sob orientação do professor Bruno Riccelli.
 
 ---
 
@@ -10,7 +10,7 @@ Nas quadras de esportes de areia, um pedido recorrente dos jogadores é ter aces
 
 **TaGravado** resolve isso com uma aplicação web conteinerizada que, ao pressionar um botão físico instalado na quadra, gera e disponibiliza automaticamente o clipe para download pelo cliente da arena. Numa segunda etapa, o sistema também oferecerá **reserva de horários** das quadras pela mesma plataforma.
 
-**Cliente/Parceiro:** Rennan — Arena Dunnas Beach.
+**Cliente/Parceiro:** Rennan - Arena Dunnas Beach.
 
 Detalhes completos (requisitos, arquitetura, impacto social, governança) em [`plano-de-projeto.md`](./plano-de-projeto.md).
 
@@ -51,8 +51,8 @@ Milestones acompanhados em [milestones do repositório](https://github.com/PI2-2
 
 | Sprint | Foco | Status |
 |---|---|---|
-| **Sprint 0** | Setup dos repositórios, plano de projeto e governança Git | Em andamento |
-| **Sprint 1** | Levantamento de requisitos e prototipação inicial | A iniciar |
+| **Sprint 0** | Setup dos repositórios, plano de projeto e governança Git | Concluída |
+| **Sprint 1** | Levantamento de requisitos e prototipação inicial | Em andamento |
 | Sprints seguintes | Implementação (backend + frontend), integração com hardware, testes e deploy | A definir |
 
 Acordos de governança (PRs, revisão obrigatória, rastreabilidade de issues) descritos em [`plano-de-projeto.md` §5](./plano-de-projeto.md).
@@ -61,9 +61,10 @@ Acordos de governança (PRs, revisão obrigatória, rastreabilidade de issues) d
 
 ## Documentação
 
-- [Plano de Projeto](./plano-de-projeto.md) — contexto, objetivos, papéis e governança.
-- [Documentação técnica](./documentacao-tecnica.md) — arquitetura e decisões técnicas (a preencher nas próximas sprints).
-- [Guia de instalação](./instalacao.md) — pré-requisitos e passo a passo (a preencher nas próximas sprints).
+- [Plano de Projeto](./plano-de-projeto.md) - contexto, objetivos, papéis e governança.
+- [Design no Figma](https://www.figma.com/design/zLz9JwG8iKX8twcxCNoUO2/TaGravado?node-id=0-1&t=fCiQqqUcCPDcxCEy-1) - protótipo visual das telas.
+- [Documentação técnica](./documentacao-tecnica.md) - arquitetura e decisões técnicas (a preencher nas próximas sprints).
+- [Guia de instalação](./instalacao.md) - pré-requisitos e passo a passo (a preencher nas próximas sprints).
 
 ---
 
