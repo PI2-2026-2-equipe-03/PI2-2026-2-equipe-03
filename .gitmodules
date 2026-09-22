@@ -1,0 +1,6 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/PI2-2026-2-equipe-03/pi2-frontend
+[submodule "backend"]
+	path = backend
+	url = https://github.com/PI2-2026-2-equipe-03/pi2-backend

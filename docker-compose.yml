@@ -1,0 +1,35 @@
+services:
+  backend:
+    image: node:22-alpine
+
+    working_dir: /app
+
+    ports:
+      - "${BACKEND_PORT}:3000"
+
+    volumes:
+      - ./backend:/app
+      - backend_node_modules:/app/node_modules
+
+    command: sh -c "echo 'Backend aguardando implementação' && tail -f /dev/null"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    ports:
+      - "${FRONTEND_PORT}:5173"
+
+    command: npm run dev -- --host 0.0.0.0
+
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+
+    depends_on:
+      - backend
+
+volumes:
+  backend_node_modules:
+  frontend_node_modules:
