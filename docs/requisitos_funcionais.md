@@ -155,3 +155,24 @@
   4. Encontra o vídeo;
   5. Exclui o vídeo manualmente.
 * **Prioridade:** Desejável
+
+---
+
+## RF-11: Recuperar senha
+
+* **Descrição:** O sistema deve permitir que um usuário cadastrado redefina a senha da conta a partir do link "Esqueci minha senha" na tela de login. O usuário informa o e-mail; caso ele exista, o sistema envia uma mensagem com o botão "Redefinir senha". Ao clicar, o usuário informa a nova senha e a confirmação, e é redirecionado à tela de login.
+* **Atores:** Usuário
+* **Objetivos:**
+  * Permitir a recuperação de acesso quando a senha for esquecida;
+  * Atualizar a senha da conta sem exigir sessão autenticada.
+* **Fluxo Principal:**
+  1. O usuário clica em "Esqueci minha senha" na tela de login;
+  2. O sistema redireciona para a página de recuperação;
+  3. O usuário informa o e-mail;
+  4. Caso o e-mail exista, o sistema envia um e-mail com o botão "Redefinir senha";
+  5. O usuário clica no botão, informa a nova senha e a confirmação, e clica em "Redefinir";
+  6. O sistema atualiza a senha e redireciona o usuário para a tela de login.
+* **Fluxo Alternativo:**
+  * Caso o e-mail não esteja cadastrado, o sistema não envia o e-mail de redefinição.
+  * Caso os campos de senha estejam em branco ou não coincidam, o sistema solicita a correção.
+* **Prioridade:** Essencial
