@@ -37,8 +37,8 @@ Detalhes completos (requisitos, arquitetura, impacto social, governança) em [`p
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/pablocosme"><img src="https://github.com/pablocosme.png" width="80" alt="Pablo"/><br/><sub><b>Pablo</b></sub></a><br/>Backend / Infra</td>
-    <td align="center"><a href="https://github.com/CristianoGolDeBiciclceta2018"><img src="https://github.com/CristianoGolDeBiciclceta2018.png" width="80" alt="Kauan"/><br/><sub><b>Kauan</b></sub></a><br/>Análise & Design</td>
-    <td align="center"><a href="https://github.com/laryssaszz"><img src="https://github.com/laryssaszz.png" width="80" alt="Laryssa"/><br/><sub><b>Laryssa</b></sub></a><br/>Análise & Design</td>
+    <td align="center"><a href="https://github.com/CristianoGolDeBiciclceta2018"><img src="https://github.com/CristianoGolDeBiciclceta2018.png" width="80" alt="Kauan"/><br/><sub><b>Anthony</b></sub></a><br/>Análise de requisitos</td>
+    <td align="center"><a href="https://github.com/laryssaszz"><img src="https://github.com/laryssaszz.png" width="80" alt="Laryssa"/><br/><sub><b>Laryssa</b></sub></a><br/>Design</td>
     <td align="center"><a href="https://github.com/Rickfarias"><img src="https://github.com/Rickfarias.png" width="80" alt="Rick"/><br/><sub><b>Rick</b></sub></a><br/>QA / Testes</td>
   </tr>
 </table>
