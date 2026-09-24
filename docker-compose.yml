@@ -1,0 +1,104 @@
+# compose central — orquestra frontend + backend + db em conjunto
+name: tagravado
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: tagravado-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-tagravado}
+      POSTGRES_USER: ${POSTGRES_USER:-tagravado}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tagravado}
+    ports:
+      # se a 5432 já estiver ocupada no host (Postgres local), sobrescreva POSTGRES_PORT no .env.
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - tagravado_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tagravado} -d ${POSTGRES_DB:-tagravado}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pi2-net
+
+  backend:
+    build:
+      context: ../pi2-backend
+    container_name: tagravado-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${BACKEND_PORT:-3000}:3000"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      HOST: 0.0.0.0
+      PORT: 3000
+      # comunicação backend->db usa o nome do serviço (`db`), resolvido pela rede Docker interna.
+      # precisará habilitar @fastify/cors para http://localhost:5173.
+      DATABASE_URL: postgresql://${POSTGRES_USER:-tagravado}:${POSTGRES_PASSWORD:-tagravado}@db:5432/${POSTGRES_DB:-tagravado}
+      JWT_SECRET: ${JWT_SECRET:-change-me}
+    volumes:
+      # Bind mount + volume anônimo em node_modules: hot reload via `tsx watch` sem sobrescrever deps do container.
+      - ../pi2-backend:/app
+      - /app/node_modules
+    networks:
+      - pi2-net
+
+  frontend:
+    build:
+      context: ../pi2-frontend
+    container_name: tagravado-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-5173}:5173"
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      # browser do dev acessa a API via localhost:3000 (porta exposta do backend).
+      # simples, sem alterar código do frontend, mas exige CORS no backend.
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:3000}
+      # ALTERNATIVA: proxy do Vite. elimina CORS por servir tudo em mesma origem.
+      # exigiria alterar vite.config.ts do frontend (bloco `server.proxy`) e trocar todas as chamadas
+      # para caminhos relativos tipo `/api/*`. considerar quando entrarmos em produção com reverse proxy.
+
+      #   VITE_API_URL: /api
+      #   + em vite.config.ts:
+      #     server: { proxy: { '/api': { target: 'http://backend:3000', rewrite: p => p.replace(/^\/api/, '') } } }
+    volumes:
+      - ../pi2-frontend:/app
+      - /app/node_modules
+    networks:
+      - pi2-net
+
+# modo dev vs prod:
+# compose sobe ambos os apps em modo desenvolvimento (Vite dev server + tsx watch)
+# para produção considerar adicionar um perfil
+# `profiles: [prod]` com build estático do frontend servido por nginx e backend compilado (npm run build/start).
+# profiles:
+#   prod:
+#     services:
+#       frontend:
+#         build:
+#           context: ../pi2-frontend
+#           target: production
+#         command: npm run build && npm run preview
+#       backend:
+#         build:
+#           context: ../pi2-backend
+#           target: production
+#         command: npm run build && npm run start
+
+networks:
+  pi2-net:
+    name: pi2-net
+    driver: bridge
+
+volumes:
+  tagravado_db_data:
+
+# 🖖
