@@ -5,7 +5,7 @@
 - **Projeto:** Tá Gravado
 - **Equipe:** Equipe 3
 - **Autores (Analistas):** Rick Farias
-- **Data da Última Atualização:** 21/09/2026
+- **Data da Última Atualização:** 24/09/2026
 
 ---
 
@@ -22,6 +22,7 @@
 | **UC-04** | Baixar Replay                   | Usuário           | `RF-06`             | Essencial  |
 | **UC-05** | Cadastrar Patrocinador da Arena | Cliente           | `RF-07`             | Importante |
 | **UC-06** | Recuperar Senha                 | Usuário           | `RF-11`             | Essencial  |
+| **UC-07** | Cadastrar Gestor de Quadra      | Usuário, Administrador | `RF-12`        | Essencial  |
 
 
 ---
@@ -354,7 +355,84 @@ Não se aplica.
 
 
 
+### UC-07 — Cadastrar Gestor de Quadra
+
+
+| Campo                   | Detalhes                                                                                                                                 |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identificador**       | UC-07                                                                                                                                    |
+| **Nome**                | Cadastrar Gestor de Quadra                                                                                                               |
+| **Atores**              | Usuário (solicita o cadastro); Administrador (analisa e decide)                                                                          |
+| **Requisito Associado** | `RF-12` (Cadastro de gestor de quadra)                                                                                                   |
+| **Prioridade**          | Essencial                                                                                                                                |
+| **Pré-condições**       | Usuário cadastrado (UC-01) e autenticado (UC-02); ainda não possui perfil de gestor de quadra nem solicitação pendente de análise.       |
+| **Pós-condições**       | Solicitação registrada com status pendente; após análise, perfil de gestor concedido (aprovação) ou mantido apenas o perfil básico (reprovação). |
+
+
+
+#### Fluxo Principal
+
+1. O ator acessa a seção de perfil da sua conta.
+2. O ator clica no botão "Cadastrar-se como gestor de quadra".
+3. O sistema exibe o formulário solicitando CPF, CNPJ, razão social, quantidade de quadras e endereço (rua, bairro, CEP, cidade e UF).
+4. O ator preenche todos os campos e confirma o envio.
+5. O sistema valida os dados informados.
+6. O sistema registra a solicitação com status pendente de análise.
+7. O sistema informa ao ator que deve aguardar a análise dos administradores e o contato posterior.
+8. O administrador analisa a solicitação.
+9. O administrador aprova o cadastro.
+10. O sistema atualiza o perfil do ator para gestor de quadra.
+
+
+
+#### Fluxos Alternativos
+
+**9a. Administrador reprova a solicitação**
+
+9a.1. O administrador reprova o cadastro de gestor de quadra.
+9a.2. O sistema atualiza o status da solicitação para reprovada.
+9a.3. O sistema mantém o ator apenas com o perfil básico de usuário.
+9a.4. O caso de uso é encerrado.
+
+
+
+#### Fluxos de Exceção
+
+**1a. Usuário não autenticado**
+
+1a.1. O sistema identifica que não há sessão autenticada válida.
+1a.2. O sistema redireciona o ator para a tela de login (UC-02).
+1a.3. O caso de uso é encerrado.
+
+**2a. Usuário já é gestor de quadra**
+
+2a.1. O sistema identifica que o ator já possui o perfil de gestor de quadra.
+2a.2. O sistema informa que o cadastro já foi concluído.
+2a.3. O caso de uso é encerrado.
+
+**2b. Solicitação já pendente**
+
+2b.1. O sistema identifica que o ator já possui uma solicitação aguardando análise.
+2b.2. O sistema informa que a análise ainda está em andamento.
+2b.3. O caso de uso é encerrado.
+
+**4a. Campo obrigatório não preenchido**
+
+4a.1. O ator tenta enviar o formulário com algum campo obrigatório em branco.
+4a.2. O sistema bloqueia o envio e solicita o preenchimento do(s) campo(s) pendente(s).
+4a.3. O caso de uso retorna ao passo 4.
+
+**5a. CPF ou CNPJ inválido ou já associado**
+
+5a.1. O sistema identifica que o CPF e/ou o CNPJ informados são inválidos ou já estão associados a outro gestor.
+5a.2. O sistema informa a inconsistência e solicita a correção dos dados.
+5a.3. O caso de uso retorna ao passo 4.
+
+---
+
+
+
 ## 4. Diretrizes de Associação com o Diagrama UML (R-05)
 
 - Todos os atores citados nesta documentação (`Usuário`, `Cliente`, `Administrador`, `Sistema`) devem possuir a representação gráfica equivalente no **Diagrama de Casos de Uso UML** (`/docs/diagrama-casos-de-uso.png`).
-- Os relacionamentos de inclusão (`<<include>>`) e extensão (`<<extend>>`) do diagrama UML devem refletir os fluxos principais e alternativos descritos neste documento — por exemplo, UC-03 (Gravar Replay) e UC-04 (Baixar Replay) devem incluir (`<<include>>`) o UC-02 (Autenticar Usuário), já que dependem de uma sessão autenticada válida. O UC-06 (Recuperar Senha) estende (`<<extend>>`) o UC-02 a partir do fluxo alternativo 3a ("Esqueci minha senha").
+- Os relacionamentos de inclusão (`<<include>>`) e extensão (`<<extend>>`) do diagrama UML devem refletir os fluxos principais e alternativos descritos neste documento — por exemplo, UC-03 (Gravar Replay), UC-04 (Baixar Replay) e UC-07 (Cadastrar Gestor de Quadra) devem incluir (`<<include>>`) o UC-02 (Autenticar Usuário), já que dependem de uma sessão autenticada válida. O UC-06 (Recuperar Senha) estende (`<<extend>>`) o UC-02 a partir do fluxo alternativo 3a ("Esqueci minha senha").
