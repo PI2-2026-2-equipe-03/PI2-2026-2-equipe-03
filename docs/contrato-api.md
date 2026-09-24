@@ -1,5 +1,24 @@
 # Contrato da API
 
+## Mapeamento entre Rotas e Requisitos Funcionais
+
+A tabela abaixo relaciona os endpoints definidos no contrato da API com os requisitos funcionais atendidos por cada rota.
+
+| Método | Endpoint | Requisito Funcional | Descrição |
+|---|---|---|---|
+| POST | `/auth/register` | RF-01 | Cadastro de usuário |
+| POST | `/auth/login` | RF-02 | Login de usuário |
+| GET | `/admin/metrics` | RF-03 | Métricas para o administrador |
+| GET | `/manager/metrics` | RF-04 | Métricas para o cliente/gestor |
+| POST | `/replays` | RF-05 / RF-09 | Grava o replay e associa quadra, data e horário |
+| GET | `/replays/{id}/download` | RF-06 | Download de vídeo |
+| POST | `/sponsors` | RF-07 | Cadastro de patrocinadores |
+| DELETE | `/replays/{id}` | RF-10 | Exclusão manual de vídeos |
+| POST | `/auth/forgot-password` | RF-11 | Solicitação de recuperação de senha |
+| POST | `/manager-requests` | RF-12 | Solicitação de cadastro como gestor de quadra |
+
+Observação: o RF-08 define a exclusão automática dos vídeos após 7 dias. Como esse comportamento é executado internamente pelo sistema, ele não foi representado como um endpoint público específico neste contrato.
+
 ## Visão geral
 
 Este documento descreve o contrato da API do sistema de replays esportivos, com base nos requisitos funcionais definidos para o projeto.
