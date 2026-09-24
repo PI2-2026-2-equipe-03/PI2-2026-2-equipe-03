@@ -176,3 +176,31 @@
   * Caso o e-mail não esteja cadastrado, o sistema não envia o e-mail de redefinição.
   * Caso os campos de senha estejam em branco ou não coincidam, o sistema solicita a correção.
 * **Prioridade:** Essencial
+
+---
+
+## RF-12: Cadastro de gestor de quadra
+
+* **Descrição:** O sistema deve permitir que um usuário já cadastrado (RF-01) solicite se tornar gestor de quadra. Na seção de perfil, o usuário clica em "Cadastrar-se como gestor de quadra" e informa os dados complementares: CPF, CNPJ, razão social, quantidade de quadras e endereço (rua, bairro, CEP, cidade e UF). Após o envio, o sistema informa que o cadastro aguarda análise dos administradores e que o contato será feito posteriormente. A solicitação só passa a valer após aprovação (ou reprovação) pela administração.
+* **Atores:** Usuário e Administrador
+* **Objetivos:**
+  * Permitir que usuários solicitem o perfil de gestor de quadra a partir do cadastro básico;
+  * Coletar os dados necessários para identificação do gestor e das quadras;
+  * Garantir uma camada de análise manual pela administração, evitando cadastros indevidos.
+* **Fluxo Principal:**
+  1. O usuário realiza o cadastro básico (RF-01) e acessa sua conta;
+  2. O usuário acessa a seção de perfil;
+  3. O usuário clica em "Cadastrar-se como gestor de quadra";
+  4. O sistema apresenta o formulário com os dados complementares;
+  5. O usuário informa CPF, CNPJ, razão social, quantidade de quadras e endereço (rua, bairro, CEP, cidade e UF);
+  6. O sistema registra a solicitação com status pendente de análise;
+  7. O sistema informa ao usuário que deve aguardar a análise dos administradores e o contato;
+  8. O administrador analisa a solicitação e aprova ou reprova o cadastro.
+* **Fluxo Alternativo:**
+  * Caso o usuário não esteja autenticado, o sistema redireciona para a tela de login;
+  * Caso algum campo obrigatório não seja preenchido, o sistema solicita o preenchimento;
+  * Caso CPF ou CNPJ sejam inválidos ou já estejam associados a outro gestor, o sistema informa a inconsistência;
+  * Caso o usuário já tenha uma solicitação pendente, o sistema informa que a análise ainda está em andamento;
+  * Caso o usuário já seja gestor de quadra, o sistema informa que o cadastro já foi concluído;
+  * Caso o administrador reprove a solicitação, o sistema atualiza o status e mantém o usuário apenas com o perfil básico.
+* **Prioridade:** Essencial
