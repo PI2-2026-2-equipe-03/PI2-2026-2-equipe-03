@@ -41,6 +41,7 @@ erDiagram
         string telefone
         int tentativas_login
         datetime bloqueado_ate
+        datetime criado_em
     }
     GESTOR_ARENA {
         int id_usuario_fk PK
@@ -48,9 +49,11 @@ erDiagram
         string cpf
         string cnpj
         string endereco
+        datetime criado_em
     }
     ADMINISTRADOR {
         int id_usuario_fk PK
+        datetime criado_em
     }
     ARENA {
         int id_arena PK
@@ -59,6 +62,7 @@ erDiagram
         string cidade
         string endereco
         string foto_url
+        datetime criado_em
     }
     QUADRA {
         int id_quadra PK
@@ -119,6 +123,7 @@ flowchart TD
 | telefone | string | | |
 | tentativas_login | int | | RNF-04 — bloqueio após 5 tentativas |
 | bloqueado_ate | datetime | | RNF-04 — bloqueio de 15 min |
+| criado_em | datetime | | |
  
 ### gestor_arena (especialização)
 | Atributo | Tipo | Chave | Observação |
@@ -128,11 +133,13 @@ flowchart TD
 | cpf | string | | |
 | cnpj | string | | |
 | endereco | string | | |
+| criado_em | datetime | | |
  
 ### administrador (especialização)
 | Atributo | Tipo | Chave | Observação |
 |---|---|---|---|
 | id_usuario | int | PK, FK → usuario | herda de usuario, sem atributos próprios até o momento |
+| criado_em | datetime | | |
 
 ### arena
 | Atributo | Tipo | Chave | Observação |
@@ -143,6 +150,7 @@ flowchart TD
 | cidade | string | | usada na busca (fluxo de navegação) |
 | endereco | string | | |
 | foto_url | string | | completa o perfil da arena |
+| criado_em | datetime | | |
 
 ### quadra
 | Atributo | Tipo | Chave | Observação |
