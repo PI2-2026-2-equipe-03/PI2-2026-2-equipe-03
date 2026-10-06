@@ -8,7 +8,7 @@ Este documento apresenta o de-para entre as telas do protótipo de alta fidelida
 
 ### Tela: Criar conta
 
-![Criar conta](criar-conta.png)
+![Criar conta](Criar-conta.png)
 
 A tela permite que novos usuários realizem seu cadastro na plataforma.
 
@@ -18,7 +18,7 @@ A tela permite que novos usuários realizem seu cadastro na plataforma.
 
 ### Tela: Login
 
-![Login](login.png)
+![Login](Login.png)
 
 A tela permite que usuários cadastrados realizem login para acessar as funcionalidades do sistema.
 
