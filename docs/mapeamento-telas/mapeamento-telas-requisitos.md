@@ -56,13 +56,13 @@ A gravação ocorre por meio do acionamento do botão físico da quadra e do arm
 
 ### Tela: Início
 
-![Início](inicio.png)
+![Início](Inicio.png)
 
 A tela permite iniciar a busca por uma arena e pelos vídeos disponíveis.
 
 ### Tela: Seleção de arena
 
-![Seleção de arena](selecao-arena.png)
+![Seleção de arena](selecao-de-arena.png)
 
 Permite selecionar a arena desejada para realizar a busca pelos vídeos.
 
@@ -74,13 +74,13 @@ Permite selecionar a quadra desejada para realizar a busca pelo vídeo.
 
 ### Tela: Horário e data
 
-![Horário e data](horario-data.png)
+![Horário e data](Horario-data.png)
 
 Permite selecionar a data e o horário para localizar o replay.
 
 ### Tela: Resultados
 
-![Resultados](resultados.png)
+![Resultados](Resultados.png)
 
 Apresenta os vídeos encontrados, permitindo sua visualização e download.
 
@@ -100,7 +100,7 @@ Permite ao cliente cadastrar patrocinadores relacionados às suas quadras.
 
 ### Tela: Resultados
 
-![Resultados](resultados.png)
+![Resultados](Resultados.png)
 
 A tela de resultados apresenta a informação referente ao período de disponibilidade dos vídeos antes da exclusão automática.
 
@@ -110,7 +110,7 @@ A tela de resultados apresenta a informação referente ao período de disponibi
 
 ### Tela: Resultados
 
-![Resultados](resultados.png)
+![Resultados](Resultados.png)
 
 A tela apresenta informações associadas aos replays, como quadra, data e horário.
 
@@ -140,7 +140,7 @@ Permite ao usuário iniciar o processo de recuperação ou alteração da senha.
 
 ### Tela: Perfil
 
-![Perfil](perfil.png)
+![Perfil](Perfil.png)
 
 A partir do perfil, o usuário pode acessar a opção para solicitar cadastro como organizador/gestor de quadra.
 
