@@ -38,7 +38,7 @@ A tela apresenta informações e métricas destinadas ao acompanhamento do siste
 
 ### Tela: Perfil / área do cliente
 
-![Perfil](perfil.png)
+![Perfil](Perfil.png)
 
 A tela representa a área de acesso do cliente/organizador às funcionalidades relacionadas à sua conta.
 
