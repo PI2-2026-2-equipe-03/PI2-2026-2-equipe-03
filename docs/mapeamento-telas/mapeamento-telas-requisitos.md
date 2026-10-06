@@ -8,7 +8,7 @@ Este documento apresenta o de-para entre as telas do protótipo de alta fidelida
 
 ### Tela: Criar conta
 
-![Criar conta](mapeamento-telas/criar-conta.png)
+![Criar conta](criar-conta.png)
 
 A tela permite que novos usuários realizem seu cadastro na plataforma.
 
@@ -18,7 +18,7 @@ A tela permite que novos usuários realizem seu cadastro na plataforma.
 
 ### Tela: Login
 
-![Login](mapeamento-telas/login.png)
+![Login](login.png)
 
 A tela permite que usuários cadastrados realizem login para acessar as funcionalidades do sistema.
 
@@ -28,7 +28,7 @@ A tela permite que usuários cadastrados realizem login para acessar as funciona
 
 ### Tela: Painel administrativo
 
-![Painel administrativo](mapeamento-telas/admin.png)
+![Painel administrativo](admin.png)
 
 A tela apresenta informações e métricas destinadas ao acompanhamento do sistema pelos desenvolvedores/administradores.
 
@@ -38,7 +38,7 @@ A tela apresenta informações e métricas destinadas ao acompanhamento do siste
 
 ### Tela: Perfil / área do cliente
 
-![Perfil](mapeamento-telas/perfil.png)
+![Perfil](perfil.png)
 
 A tela representa a área de acesso do cliente/organizador às funcionalidades relacionadas à sua conta.
 
@@ -56,31 +56,31 @@ A gravação ocorre por meio do acionamento do botão físico da quadra e do arm
 
 ### Tela: Início
 
-![Início](mapeamento-telas/inicio.png)
+![Início](inicio.png)
 
 A tela permite iniciar a busca por uma arena e pelos vídeos disponíveis.
 
 ### Tela: Seleção de arena
 
-![Seleção de arena](mapeamento-telas/selecao-arena.png)
+![Seleção de arena](selecao-arena.png)
 
 Permite selecionar a arena desejada para realizar a busca pelos vídeos.
 
 ### Tela: Quadras
 
-![Quadras](mapeamento-telas/quadras.png)
+![Quadras](quadras.png)
 
 Permite selecionar a quadra desejada para realizar a busca pelo vídeo.
 
 ### Tela: Horário e data
 
-![Horário e data](mapeamento-telas/horario-data.png)
+![Horário e data](horario-data.png)
 
 Permite selecionar a data e o horário para localizar o replay.
 
 ### Tela: Resultados
 
-![Resultados](mapeamento-telas/resultados.png)
+![Resultados](resultados.png)
 
 Apresenta os vídeos encontrados, permitindo sua visualização e download.
 
@@ -90,7 +90,7 @@ Apresenta os vídeos encontrados, permitindo sua visualização e download.
 
 ### Tela: Cadastrar patrocinador
 
-![Cadastrar patrocinador](mapeamento-telas/cadastrar-patrocinador.png)
+![Cadastrar patrocinador](cadastrar-patrocinador.png)
 
 Permite ao cliente cadastrar patrocinadores relacionados às suas quadras.
 
@@ -100,7 +100,7 @@ Permite ao cliente cadastrar patrocinadores relacionados às suas quadras.
 
 ### Tela: Resultados
 
-![Resultados](mapeamento-telas/resultados.png)
+![Resultados](resultados.png)
 
 A tela de resultados apresenta a informação referente ao período de disponibilidade dos vídeos antes da exclusão automática.
 
@@ -110,7 +110,7 @@ A tela de resultados apresenta a informação referente ao período de disponibi
 
 ### Tela: Resultados
 
-![Resultados](mapeamento-telas/resultados.png)
+![Resultados](resultados.png)
 
 A tela apresenta informações associadas aos replays, como quadra, data e horário.
 
@@ -120,7 +120,7 @@ A tela apresenta informações associadas aos replays, como quadra, data e horá
 
 ### Tela: Exclusão manual de vídeo
 
-![Exclusão de vídeo](mapeamento-telas/exclusao-video.png)
+![Exclusão de vídeo](exclusao-video.png)
 
 Permite ao cliente ou administrador realizar a exclusão manual de um vídeo.
 
@@ -130,7 +130,7 @@ Permite ao cliente ou administrador realizar a exclusão manual de um vídeo.
 
 ### Tela: Recuperar senha
 
-![Recuperar senha](mapeamento-telas/recuperar-senha.png)
+![Recuperar senha](recuperar-senha.png)
 
 Permite ao usuário iniciar o processo de recuperação ou alteração da senha.
 
@@ -140,19 +140,19 @@ Permite ao usuário iniciar o processo de recuperação ou alteração da senha.
 
 ### Tela: Perfil
 
-![Perfil](mapeamento-telas/perfil.png)
+![Perfil](perfil.png)
 
 A partir do perfil, o usuário pode acessar a opção para solicitar cadastro como organizador/gestor de quadra.
 
 ### Tela: Solicitação
 
-![Solicitação](mapeamento-telas/solicitacao-organizador.png)
+![Solicitação](solicitacao-organizador.png)
 
 Permite ao usuário realizar a solicitação para se tornar organizador/gestor de quadra.
 
 ### Tela: Validação
 
-![Validação](mapeamento-telas/validacao-organizador.png)
+![Validação](validacao.png)
 
 Permite aos desenvolvedores/administradores do sistema analisar a solicitação e aprovar ou rejeitar o cadastro como organizador.
 
