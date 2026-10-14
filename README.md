@@ -53,7 +53,9 @@ Milestones acompanhados em [milestones do repositório](https://github.com/PI2-2
 |---|---|---|
 | **Sprint 0** | Setup dos repositórios, plano de projeto e governança Git | Concluída |
 | **Sprint 1** | Levantamento de requisitos e prototipação inicial | Concluída |
-| Sprints seguintes | Implementação (backend + frontend), integração com hardware, testes e deploy | A definir |
+| **Sprint 2** | Implementação inicial do frontend e backend; integração do SPA com a API | Concluída |
+| **Sprint 3** | Expansão da API, persistência em Postgres e integração ponta-a-ponta | Em andamento |
+| Sprints seguintes | Integração com hardware, testes e deploy | A definir |
 
 Acordos de governança (PRs, revisão obrigatória, rastreabilidade de issues) descritos em [`plano-de-projeto.md` §5](./docs/plano-de-projeto.md).
 
