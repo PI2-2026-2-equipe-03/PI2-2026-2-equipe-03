@@ -138,9 +138,12 @@ cd pi2-backend && docker compose up
 | Sintoma | Causa provável | Ação |
 |---|---|---|
 | `port is already allocated` em 5173/3000/5432 | Processo do host ocupando a porta | Trocar a porta no `.env` (`FRONTEND_PORT`, `BACKEND_PORT`, `POSTGRES_PORT`) |
-| Frontend abre mas requests dão CORS error | Backend sem `@fastify/cors` liberando `http://localhost:5173` | Configurar CORS no `pi2-backend` |
+| Frontend abre mas requests dão CORS error | Alguém chamou `http://localhost:3000` direto do browser (sem proxy) | Garanta `VITE_API_URL=/api` no `.env`; o Vite proxia para `backend:3000` sem CORS |
+| Páginas continuam exibindo dados mock mesmo com API no ar | `VITE_USE_MOCKS` ficou em `true` | O compose central monta o `.env` do PMO como `.env.local` do frontend; confirme `VITE_USE_MOCKS=false` no `.env` e recrie o container (`docker compose up --build`) |
+| API responde mas DB diz "relation does not exist" | Volume `tagravado_db_data` já existia sem schema | `docker compose down -v && docker compose up --build` — os scripts em `pi2-backend/src/db/init/` só rodam na primeira inicialização do volume |
 | Alterações no código não refletem | Watcher não detecta mudança | Confirmar bind mount e `CHOKIDAR_USEPOLLING=true` (frontend); reiniciar o serviço |
 | `build: ../pi2-frontend: no such file` | Repos não estão lado a lado | Ver estrutura no passo 1 |
+| Backend reclama de `DATABASE_URL não definida` | `.env` sem o bloco de banco | Copie novamente do `.env.example` |
 | Backend não conecta no DB | `db` ainda inicializando | O compose usa `depends_on: service_healthy`; se persistir, `docker compose logs db` |
 | Precisa resetar tudo | Volumes/imagens corrompidos | `docker compose down -v && docker compose build --no-cache` |
 
