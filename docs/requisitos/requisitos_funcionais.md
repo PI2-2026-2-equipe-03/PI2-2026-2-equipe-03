@@ -319,26 +319,143 @@ Quando o sistema processar o vídeo
   	Então deve gravar no banco os metadados {cidade: "Crateús",  
 quadra: "Quadra 2", data\_hora: "2026-09-24 19:30:00", patrocinador id: 5}. 
 
-**RF-09:** Exclusão de vídeos
+**RF-10:** Exclusão de vídeos 
 
-**Descrição:** O cliente, se desejar excluir um certo vídeo a hora que quiser, assim ele poderá, ao invés de ter que esperar a exclusão automaticamente
+**Descrição:** O cliente (dono da quadra) e/ou Administrador, se desejar excluir um certo vídeo a hora que quiser, assim ele poderá, ao invés de ter que esperar a exclusão automaticamente 
 
-**Ator:** Cliente
+**Ator:** Cliente e Administrador 
 
-**Fluxo principal:**
+Fluxo principal:   
+1\. O cliente ou Administrador loga em sua conta   
+2\. Busca a arena desejada   
+3\. Seleciona o horário do vídeo   
+4\. Encontra o vídeo   
+5\. Exclui o video manualmente
 
-1. O cliente com sua conta de administrador loga em sua conta  
-2. Busca a arena desejada  
-3. seleciona o horário do vídeo  
-4. Encontra o vídeo   
-5. exclui o video manualmente
-
-**Prioridade:** Desejável
+ **Prioridade:** Desejável 
 
 **Versão Gherkin:**  
-	Cenário: Exclusão manual autorizada pelo proprietário da quadra  
- 	Dado que o Cliente proprietário da quadra está logado  
-Quando solicitar a exclusão manual do vídeo ID \#1045 informando o  motivo "Solicitação do usuário"  
-  	Então o sistema deve remover o vídeo imediatamente (RN-04)  
-  	E registrar um log de auditoria da ação.
+Cenário: Exclusão manual autorizada pelo proprietário da quadra   
+Dado que o Cliente proprietário da quadra está logado   
+Quando solicitar a exclusão manual do vídeo ID \#1045 informando o motivo "Solicitação do usuário"  
+ Então o sistema deve remover o vídeo imediatamente (RN-04) E registrar um log de auditoria da ação 
+
+**RF-11:** Solicitação de recuperação de senha 
+
+**Descrição:** O usuário se desejar poderá mudar de senha ou recupera-lá caso tenha esquecido
+
+**Ator**: Usuário 
+
+**Fluxo principal:**   
+1\. O usuário entra na tela de login   
+2\. Solicita a mudança de senha   
+3\. Escolhe entre receber o código de verificação por email ou telefone   
+4\. Usuário digita o código   
+5\. Sistema solicita digitar a nova senha duas vezes   
+6\. Sistema retorna a tela de login 
+
+Fluxo Alternativo:   
+1\. O usuário entra na tela de login   
+2\. Solicita a mudança de senha   
+3\. Escolhe entre receber o código de verificação por email ou telefone  
+4\. Usuário digita o código incorreto   
+5\. Sistema aponta código inválido   
+6\. Sistema retorna para passo 2 
+
+**Prioridade:** Importante 
+
+**Versão Gherkin:**  
+Cenário: Recuperação de senha via e-mail com sucesso   
+Quando solicito a mudança de senha   
+E escolho receber o código de verificação por e-mail  
+Então recebo um código de verificação no e-mail cadastrado   
+Quando digito o código correto  
+Então o sistema solicita que eu digite a nova senha duas vezes Quando informo a mesma nova senha nos dois campos  
+Então minha senha é alterada E sou redirecionado para a tela de login 
+
+Cenário: Recuperação de senha via telefone com sucesso   
+Quando solicito a mudança de senha   
+E escolho receber o código de verificação por telefone   
+Então recebo um código de verificação por SMS no telefone cadastrado   
+Quando digito o código correto   
+Então o sistema solicita que eu digite a nova senha duas vezes Quando informo a mesma nova senha nos dois campos   
+Então minha senha é alterada   
+E sou redirecionado para a tela de login 
+
+Cenário: Código de verificação incorreto   
+Quando solicito a mudança de senha   
+E escolho receber o código de verificação por e-mail   
+E digito um código incorreto   
+Então o sistema aponta "Código inválido"   
+E retorno para a etapa de escolha do meio de recebimento do código 
+
+Cenário: Nova senha e confirmação não coincidem   
+Dado que digitei o código de verificação corretamente   
+Quando informo a nova senha e uma confirmação diferente dela   
+Então o sistema informa "As senhas não coincidem"   
+E permaneço na tela de redefinição de senha  
+   
+Cenário: Nova senha não atende aos critérios mínimos   
+Dado que digitei o código de verificação corretamente   
+Quando informo uma nova senha que não atende aos critérios mínimos de segurança   
+Então o sistema informa os requisitos não atendidos  
+E a senha não é alterada 
+
+Cenário: E-mail ou telefone não cadastrado   
+Quando solicito a mudança de senha   
+E informo um e-mail ou telefone não cadastrado no sistema   
+Então o sistema informa "Não encontramos uma conta com esses dados"   
+E nenhum código é enviado 
+
+**RF-12:** Solicitação de cadastro como gestor de quadra 
+
+**Descrição:** O cliente faz uma solicitação para ser gestor de quadra e após ser aprovada por um dos administradores ele se torna um administrador de quadra 
+
+**Atores:** Cliente e Administradores
+
+ **Fluxo Principal**:   
+1\. Cliente entra na tela de cadastro para administradores   
+2\. Insere dados válidos   
+3\. Um dos administradores verifica e confirma o cadastro   
+4\. O cliente agora com novas permissões dentro do sistema pode usufruir do perfil de administrador 
+
+**Fluxo alternativo:**
+
+ \- Caso outro usuário tente se cadastrar sem ser dono de uma quadra os administradores não aprovaram o cadastro  
+ \- Caso o email já esteja cadastrado, o sistema deve informar que já existe uma conta associada.   
+\- Caso o cliente insira dados incorretos, será feito um indeferimento recorrendo a correção desses dados \- Prioridade: Essencial 
+
+**Versão Gherkin:**  
+Cenário: Solicitação de cadastro com dados válidos   
+Quando insiro dados válidos e envio a solicitação de cadastro   
+Então a solicitação fica pendente de aprovação   
+E um administrador é notificado da nova solicitação 
+
+Cenário: Aprovação da solicitação pelo administrador   
+Dado que existe uma solicitação de cadastro pendente com dados válidos  
+Quando um administrador verifica e confirma o cadastro  
+Então o cliente passa a ter o perfil de administrador de quadra   
+E o cliente é notificado da aprovação 
+
+Cenário: Reprovação por solicitante não ser dono de quadra   
+Dado que existe uma solicitação de cadastro de um usuário que não é dono de uma quadra   
+Quando um administrador avalia a solicitação   
+Então a solicitação é reprovada E o cliente não recebe o perfil de administrador de quadra   
+E o cliente é notificado da reprovação
+
+Cenário: Tentativa de cadastro com e-mail já existente   
+Dado que já existe uma conta cadastrada com o e-mail "cliente@email.com"   
+Quando tento enviar uma solicitação de cadastro com o e-mail "cliente@email.com"   
+Então o sistema informa "Já existe uma conta associada a este e-mail" E a solicitação não é criada 
+
+Cenário: Solicitação com dados incorretos é indeferida   
+Dado que existe uma solicitação de cadastro com dados incorretos ou incompletos   
+Quando um administrador avalia a solicitação   
+Então a solicitação é indeferida   
+E o sistema indica quais dados precisam ser corrigidos  
+E o cliente pode reenviar a solicitação com os dados corrigidos 
+
+Cenário: Reenvio da solicitação após correção dos dados  
+Dado que recebi um indeferimento solicitando correção de dados Quando corrijo os dados e reenvio a solicitação   
+Então a solicitação volta a ficar pendente de aprovação 
 
