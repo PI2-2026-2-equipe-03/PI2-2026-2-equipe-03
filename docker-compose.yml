@@ -15,6 +15,8 @@ services:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - tagravado_db_data:/var/lib/postgresql/data
+      # schema + seed; só rodam na primeira criação do volume (`down -v` para reaplicar).
+      - ../pi2-backend/src/db/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tagravado} -d ${POSTGRES_DB:-tagravado}"]
       interval: 5s
@@ -37,10 +39,12 @@ services:
       NODE_ENV: ${NODE_ENV:-development}
       HOST: 0.0.0.0
       PORT: 3000
-      # comunicação backend->db usa o nome do serviço (`db`), resolvido pela rede Docker interna.
-      # precisará habilitar @fastify/cors para http://localhost:5173.
+      # backend conecta no db pelo nome do serviço na rede interna.
+      # como o front usa o proxy do vite, não precisa de cors; se chamar :3000 direto do
+      # browser, habilitar @fastify/cors.
       DATABASE_URL: postgresql://${POSTGRES_USER:-tagravado}:${POSTGRES_PASSWORD:-tagravado}@db:5432/${POSTGRES_DB:-tagravado}
       JWT_SECRET: ${JWT_SECRET:-change-me}
+      DB_POOL_MAX: ${DB_POOL_MAX:-10}
     volumes:
       # Bind mount + volume anônimo em node_modules: hot reload via `tsx watch` sem sobrescrever deps do container.
       - ../pi2-backend:/app
@@ -59,19 +63,14 @@ services:
       - "${FRONTEND_PORT:-5173}:5173"
     environment:
       CHOKIDAR_USEPOLLING: "true"
-      # browser do dev acessa a API via localhost:3000 (porta exposta do backend).
-      # simples, sem alterar código do frontend, mas exige CORS no backend.
-      VITE_API_URL: ${VITE_API_URL:-http://localhost:3000}
-      # ALTERNATIVA: proxy do Vite. elimina CORS por servir tudo em mesma origem.
-      # exigiria alterar vite.config.ts do frontend (bloco `server.proxy`) e trocar todas as chamadas
-      # para caminhos relativos tipo `/api/*`. considerar quando entrarmos em produção com reverse proxy.
-
-      #   VITE_API_URL: /api
-      #   + em vite.config.ts:
-      #     server: { proxy: { '/api': { target: 'http://backend:3000', rewrite: p => p.replace(/^\/api/, '') } } }
+      # alvo do proxy /api do vite (ver vite.config.ts do frontend).
+      API_PROXY_TARGET: ${API_PROXY_TARGET:-http://backend:3000}
     volumes:
       - ../pi2-frontend:/app
       - /app/node_modules
+      # vite só lê VITE_* de arquivos .env*. montar o .env do pmo aqui garante
+      # que VITE_USE_MOCKS e VITE_API_URL cheguem ao browser.
+      - ./.env:/app/.env.local:ro
     networks:
       - pi2-net
 

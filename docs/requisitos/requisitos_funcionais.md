@@ -1,180 +1,461 @@
-# Requisitos Funcionais
+1. **Requisitos Funcionais**
 
----
+**RF-01: Cadastro de usuário**
 
-### RF-01: Cadastro de usuário
-* **Descrição:** O sistema deve permitir que novos usuários realizem seu cadastro para acessar as funcionalidades relacionadas aos replays disponíveis na plataforma. Dados como nome completo, email, telefone e criação de uma senha serão necessários nessa etapa.
-* **Atores:** Usuário
-* **Fluxo Principal:**
-  1. O usuário acessa a opção de cadastro;
-  2. O sistema apresenta o formulário de cadastro;
-  3. Usuário informa os dados;
-  4. O sistema realiza o cadastro;
-  5. O sistema informa que o cadastro foi realizado com sucesso.
-* **Fluxo Alternativo:**
-  * Caso o usuário não preencha um espaço obrigatório, o sistema deve informar ao usuário.
-  * Caso o email já esteja cadastrado, o sistema deve informar que já existe uma conta associada.
-* **Prioridade:** Essencial
+**Descrição:** O sistema deve permitir que novos usuários realizem seu cadastro para acessar as funcionalidades relacionadas aos replays disponíveis na plataforma.
 
----
+**Atores:** Usuário
 
-### RF-02: Login de usuário
-* **Descrição:** O sistema deve permitir que usuários cadastrados realizem login para acessar as funcionalidades disponíveis para sua conta, incluindo a visualização dos replays. O sistema também terá um tempo máximo de 30 minutos de conta logada, após esse tempo será feito o logout automaticamente.
-* **Atores:** Usuário
-* **Fluxo Principal:**
-  1. O usuário acessa a tela de login;
-  2. O sistema solicita email e senha;
-  3. Usuário informa os dados;
-  4. O sistema verifica os dados;
-  5. O sistema autentica o usuário;
-  6. O sistema direciona o usuário para a área principal.
-* **Fluxo Alternativo:**
-  1. Caso os dados inseridos pelo usuário estejam incorretos, o sistema informa que o email ou senha são inválidos;
-  2. Caso os campos obrigatórios não sejam preenchidos, o sistema solicita o preenchimento.
-* **Prioridade:** Essencial
+**Objetivos:** 
 
----
+- Permitir a criação de uma conta de usuário;  
+- Identificar os usuários que utilizam o sistema;  
+- Associar os replays aos respectivos usuários.
 
-### RF-03: Métricas para o administrador
-* **Descrição:** Dashboard de dados e estatísticas, quadras mais acessadas, quantidade de clientes ativos e etc. Tela com informações que auxiliam na tomada de decisão estratégica e acompanhamento do uso do sistema.
-* **Ator:** Administrador
-* **Fluxo Principal:**
-  1. Administrador acessa a aplicação;
-  2. Faz login no sistema;
-  3. Acessa a tela inicial (dashboard) com as métricas.
-* **Fluxo Alternativo:**
-  1. Ausência de dados.
-* **Prioridade:** Importante
 
----
+**Fluxo Principal:** 
 
-### RF-04: Métricas para o cliente
-* **Descrição:** Dashboard de dados e estatísticas, edição de patrocinadores cadastrados, visualização de horários de pico e etc. Tela com informações que auxiliam na tomada de decisão estratégica e acompanhamento do uso do sistema.
-* **Ator:** Cliente
-* **Fluxo Principal:**
-  1. Cliente acessa a aplicação;
-  2. Faz login no sistema;
-  3. Acessa a tela inicial (dashboard) com as métricas.
-* **Fluxo Alternativo:**
-  1. Ausência de dados.
-* **Prioridade:** Importante
+1. O usuário acessa a opção de cadastro;  
+2. O sistema apresenta o formulário de cadastro;  
+3. Usuário informa os dados;  
+4. O sistema realiza o cadastro;  
+5. O sistema informa que o cadastro foi realizado com sucesso.  
+   
 
----
+**Fluxo alternativo:** 
 
-### RF-05: Gravar Vídeo
-* **Descrição:** O cliente aperta o botão da quadra e a câmera armazenará os últimos 30 segundos gravados.
-* **Ator:** Usuário
-* **Fluxo Principal:**
-  1. Cliente aperta o botão;
-  2. Os últimos 30 segundos gravados são armazenados no banco de dados.
-* **Prioridade:** Essencial
+- Caso o usuário não preencha um espaço obrigatório, o sistema deve informar ao usuário.  
+- Caso o email já esteja cadastrado, o sistema deve informar que já existe uma conta associada.  
+- 
 
----
+**Prioridade:** Essencial
 
-### RF-06: Baixar vídeo
-* **Descrição:** O usuário acessa um site onde ele consegue visualizar e baixar o vídeo escolhido em mp4.
-* **Ator:** Usuário
-* **Fluxo Principal:**
-  1. Usuário entra na tela de Login;
-  2. Acessa a sua conta;
-  3. Procura a cidade na tela principal;
-  4. Escolhe a quadra;
-  5. Busca o horário;
-  6. Busca o vídeo, visualiza ou faz o download do mesmo.
-* **Fluxo Alternativo:**
-  1. Horários sem nenhuma gravação;
-  2. Quadras indisponíveis;
-  3. Cidade não cadastrada.
-* **Prioridade:** Essencial
+**Versão Gherkin:**  
+	Cenário: Cadastro com dados válidos   
+Dado que estou na tela de cadastro de usuários  
+Quando preencho nome completo, telefone e e-mail válidos  
+E digito uma senha  
+E clico em "Salvar"   
+Então o cliente é cadastrado  
+E vejo a mensagem "Conta cadastrada com sucesso"
 
----
+Cenário: Cadastro com CPF já existente  
+Dado que existe um cliente com o   
+CPF "123.456.789-09"   
+Quando tento cadastrar outro cliente com o mesmo  
+CPF Então o cadastro não é realizado   
+E vejo a mensagem "CPF já cadastrado" 
 
-### RF-07: Cadastrar patrocinadores
-* **Descrição:** O cliente da aplicação cadastra os patrocinadores da(s) sua(s) quadra(s) em específico.
-* **Ator:** Cliente
-* **Fluxo Principal:**
-  1. Cliente entra na tela de Login;
-  2. Acessa a sua conta;
-  3. Cadastra os patrocinadores (nome, foto, duração, valor);
-  4. Escolhe a(s) sua(s) quadra(s);
-  5. Adiciona o(s) patrocinador(es).
-* **Fluxo Alternativo:**
-  1. Patrocinador já existe;
-  2. Total de patrocinadores já preenchido.
-* **Prioridade:** Importante
+**RF-02: Login de usuário**
 
----
+**Descrição:**O sistema deve permitir que usuários cadastrados realizem login para acessar as funcionalidades disponíveis para sua conta, incluindo a visualização dos replays.
 
-### RF-08: Tempo de disponibilidade dos vídeos
-* **Descrição:** Após 7 dias os vídeos armazenados serão excluídos automaticamente.
-* **Ator:** Sistema
-* **Prioridade:** Importante
+**Atores:** Usuário  
+   
+**Fluxo principal:** 
 
----
+1. O usuário acessa a tela de login;  
+2. O sistema solicita email e senha;  
+3. Usuário informa os dados;  
+4. O sistema verifica os dados;  
+5. O sistema autentica o usuário;  
+6. O sistema direciona o usuário para a área principal.
 
-### RF-09: Associar informações ao replay
-* **Descrição:** O sistema deve associar cada replay gerado às informações da quadra, data e horário em que a solicitação foi realizada.
-* **Atores:** Sistema
-* **Objetivos:**
-  1. Identificar a quadra relacionada ao replay;
-  2. Registrar a data em que o replay foi gerado;
-  3. Registrar o horário da geração do replay;
-  4. Facilitar a identificação e consulta dos vídeos.
-* **Fluxo Principal:**
-  1. O sistema gera o replay após o acionamento do botão;
-  2. O sistema identifica a quadra relacionada à solicitação;
-  3. O sistema registra a data em que o replay foi gerado;
-  4. O sistema registra o horário em que o replay foi gerado.
-* **Fluxo Alternativo:**
-  1. Caso ocorra um erro ao armazenar as informações, o sistema informa a falha e mantém o replay pendente para uma nova tentativa.
-* **Prioridade:** Essencial
+**Fluxos alternativos:** 
 
----
+1. Caso os dados inseridos pelo o usuário esteja incorretas, o sistema informa que o email ou senha são inválidos;  
+2. Caso os campos obrigatórios não sejam preenchidos, o sistema solicita o preenchimento.  
+   
 
-### RF-10: Exclusão de vídeos
-* **Descrição:** O cliente (dono da quadra) e/ou Administrador, se desejar excluir um certo vídeo a hora que quiser, assim ele poderá, ao invés de ter que esperar a exclusão automática.
-* **Ator:** Cliente e Administrador
-* **Fluxo Principal:**
-  1. O cliente ou Administrador loga em sua conta;
-  2. Busca a arena desejada;
-  3. Seleciona o horário do vídeo;
-  4. Encontra o vídeo;
-  5. Exclui o vídeo manualmente.
-* **Prioridade:** Desejável
+**Prioridade:** Essencial
 
----
+**Versão Gherkin:**  
+	Cenário: Login com credenciais válidas  
+Dado que sou um usuário cadastrado com o e-mail "bruninhoGameplay@empresa.com"   
+E estou na tela de login   
+Quando informo o e-mail "bruninhoGameplay@empresa.com" e a senha correta   
+E clico em "Entrar"   
+Então sou redirecionado para a página inicial
 
-### RF-11: Solicitação de recuperação de senha
-* **Descrição:** O usuário, se desejar, poderá mudar de senha ou recuperá-la caso tenha esquecido.
-* **Ator:** Usuário
-* **Fluxo Principal:**
-  1. O usuário entra na tela de login;
-  2. Solicita a mudança de senha;
-  3. Escolhe entre receber o código de verificação por email ou telefone;
-  4. Usuário digita o código;
-  5. Sistema solicita digitar a nova senha duas vezes;
-  6. Sistema retorna à tela de login.
-* **Fluxo Alternativo:**
-  1. O usuário entra na tela de login;
-  2. Solicita a mudança de senha;
-  3. Escolhe entre receber o código de verificação por email ou telefone;
-  4. Usuário digita o código incorreto;
-  5. Sistema aponta código inválido;
-  6. Sistema retorna para o passo 2.
-* **Prioridade:** Importante
+Cenário: Login com senha incorreta   
+Dado que sou um usuário cadastrado com o e-mail "bruninhoGameplay@empresa.com"   
+E estou na tela de login   
+Quando informo o e-mail "bruninhoGameplay@empresa.com" e uma senha incorreta   
+E clico em "Entrar" 
 
----
+**RF-03:** Métricas para o administrador
 
-### RF-12: Solicitação de cadastro como gestor de quadra
-* **Descrição:** O cliente faz uma solicitação para ser gestor de quadra e, após ser aprovada por um dos administradores, ele se torna um administrador de quadra.
-* **Atores:** Usuário e Administradores
-* **Fluxo Principal:**
-  1. Cliente entra na tela de cadastro para administradores;
-  2. Insere dados válidos;
-  3. Um dos administradores verifica e confirma o cadastro;
-  4. O cliente, agora com novas permissões dentro do sistema, pode usufruir do perfil de administrador.
-* **Fluxo Alternativo:**
-  * Caso outro usuário tente se cadastrar sem ser dono de uma quadra, os administradores não aprovarão o cadastro.
-  * Caso o email já esteja cadastrado, o sistema deve informar que já existe uma conta associada.
-  * Caso o cliente insira dados incorretos, será feito um indeferimento recorrendo à correção desses dados.
-* **Prioridade:** Essencial
+**Descrição:**   
+Informações relevantes para o administrador, auxiliando na tomada de decisão estratégica e acompanhamento do uso do sistema
+
+**Ator:** Administrador
+
+**Fluxo Principal:**
+
+1. Administrador acessa a aplicação  
+2. Faz login no sistema  
+3. Acessa a tela inicial (dashboard) com as métricas
+
+**Fluxo Alternativo:**
+
+1. Ausência de dados
+
+**Prioridade:** Importante
+
+**Versão Gherkin:**  
+	Cenário: Visualizar métricas no dashboard após o login   
+Dado que existem dados de uso registrados no sistema   
+Quando faço login com credenciais válidas  
+Então sou direcionado para a tela inicial (dashboard)   
+E vejo as métricas de uso do sistema 
+
+Cenário: Dashboard sem dados disponíveis   
+Dado que não existem dados de uso registrados no sistema   
+Quando faço login com credenciais válidas   
+Então sou direcionado para a tela inicial (dashboard)   
+E vejo a mensagem "Ainda não há dados para exibir"   
+E não vejo métricas com valores zerados ou inconsistentes 
+
+	Cenário: Login com credenciais inválidas  
+Quando faço login com uma senha incorreta   
+Então permaneço na tela de login   
+E vejo a mensagem "E-mail ou senha inválidos"   
+E não tenho acesso ao dashboard 
+
+**RF-04:** Métricas para o cliente
+
+**Descrição:**   
+Informações relevantes para o cliente, auxiliando na tomada de decisão estratégica e acompanhamento do uso do sistema
+
+**Ator:** Cliente
+
+**Fluxo Principal:**
+
+1. Cliente acessa a aplicação  
+2. Faz login no sistema  
+3. Acessa a tela inicial (dashboard) com as métricas
+
+**Fluxo Alternativo:**
+
+1. Ausência de dados
+
+**Prioridade:** Importante
+
+**Versão Gherkin:**  
+	Cenário: Visualizar métricas no dashboard após o login  
+Dado que existem dados de uso registrados para o meu perfil  
+Quando faço login com credenciais válidas  
+Então sou direcionado para a tela inicial (dashboard)  
+E vejo as métricas de uso do meu perfil
+
+  	Cenário: Dashboard sem dados disponíveis  
+ Dado que não existem dados de uso registrados para o meu perfil  
+ Quando faço login com credenciais válidas  
+ Então sou direcionado para a tela inicial (dashboard)  
+ E vejo a mensagem "Ainda não há dados para exibir"  
+ E não vejo métricas com valores zerados ou inconsistentes
+
+  	Cenário: Login com credenciais inválidas  
+    	Quando faço login com uma senha incorreta  
+    	Então permaneço na tela de login  
+    	E vejo a mensagem "E-mail ou senha inválidos  
+E não tenho acesso ao dashboard
+
+**RF-05:** Gravar Vídeo
+
+**Descrição:**   
+O cliente aperta um botão na qual a câmera da quadra armazena os últimos 30 segundos gravados
+
+**Ator:** Usuário
+
+**Fluxo Principal:**  
+1\. Cliente aperta o botão   
+2\. Os últimos 30 segundos gravados são armazenados no banco de dados
+
+**Prioridade:** Essencial
+
+**Versão Gherkin:**  
+	Cenário: câmera em condições de perfeito estado  
+	Dado que sou um cliente  
+Quando estou na arena  
+E aperto e seguro o botão por 2 segundos  
+Então é armazenado os últimos 30 segundos gravados da câmera
+
+Cenário: câmera com defeito  
+Dado que sou um cliente  
+Quando estou na arena  
+E aperto e seguro o botão por 2 segundos  
+Então nenhum vídeo é armazenado 
+
+Cenário: cliente não segura o botão por tempo suficiente  
+	Dado que sou um cliente  
+Quando estou na arena  
+E aperto o botão e solto em seguida  
+Então nenhum vídeo é armazenado
+
+**RF-06**: Baixar vídeo
+
+**Descrição:**   
+O usuário acessa um site onde ele consegue visualizar e baixar o vídeo escolhido
+
+**Ator:** Usuário
+
+**Fluxo Principal:**
+
+1. Usuário entra na tela de Login  
+2. Acessa a sua conta  
+3. Procura a cidade na tela principal  
+4. Escolhe a quadra  
+5. Busca o horário  
+6. Busca o video, visualiza ou faz o download do mesmo
+
+**Fluxo Alternativo:**
+
+1. Horários sem nenhuma gravação  
+2. Quadras indisponíveis  
+3. Cidade não cadastrada
+
+**Prioridade:** Essencial
+
+**Versão Gherkin:**  
+Cenário: cliente com cadastro acessa o site, visualiza e baixa o vídeo escolhido  
+	Dado que sou um cliente que já está logado em sua conta  
+	Quando acesso a cidade, arena, horário e vídeo escolhido  
+	E clico em “Baixar”  
+	Então é feito o download no meus dispositivo
+
+Cenário: cidade não cadastrada  
+	Dado que sou um cliente que já está logado em sua conta  
+	Quando digito a cidade desejada  
+	Então aparece “cidade não encontrada”
+
+Cenário: arena não cadastrada  
+	Dado que sou um cliente que já está logado em sua conta  
+	Quando acesso a cidade  
+	E digito a arena desejada  
+	Então  aparece “arena não encontrada”
+
+Cenário: horário sem vídeos  
+	Dado que sou um cliente que já está logado em sua conta  
+	Quando acesso a cidade, arena, horário escolhido  
+	Então aparece “Horário sem vídeos gravados”
+
+**RF-07**: Cadastrar patrocinadores
+
+**Descrição:**   
+O cliente da aplicação cadastra os patrocinadores da(s) sua(s) quadra(s) em específico
+
+**Ator:** Cliente
+
+**Fluxo Principal:**
+
+1. Cliente entra na tela de Login  
+2. Acessa a sua conta  
+3. Cadastra os patrocinadores (nome, foto, duração, valor)  
+4. Escolhe a(s) sua(s) quadra(s)  
+5. Adiciona o(s) patrocinador(es)
+
+**Fluxo Alternativo:**
+
+1. Patrocinador já existe  
+2. Total de patrocinadores já preenchido
+
+**Prioridade:** Importante
+
+**Versão Gherkin:**  
+	Cenário: Vinculação de patrocinador à quadra  
+ Dado que o Cliente está no painel de gestão de patrocinadores  
+ Quando cadastrar o patrocinador "Empresa X" enviando a imagem da logo   
+ e  vinculando à "Quadra 1"  
+ Então o sistema deve salvar o vínculo e aplicar a marca d'água nos  
+ novos  replays gerados para a Quadra 1 (RN-05).
+
+**RF-08:** Tempo de disponibilidade dos vídeos
+
+**Descrição:** após 7 dias os vídeos armazenados serão excluídos automaticamente
+
+**Ator:** Sistema
+
+**Prioridade:** Importante
+
+**Versão Gherkin:**  
+	Cenário: Quadra com vídeos relacionados  
+	Dado um vídeo com tempo gravado a mais de 7 dias  
+Quando a rotina automática de limpeza (cronjob) for executada	  
+Então o sistema deve deletar o arquivo do storage e marcar o registro como expirado (RN-01)  
+  	E o vídeo não deve mais aparecer nas buscas dos usuários.
+
+**RF-09:** Associar informações ao replay 
+
+**Descrição:** O sistema deve associar cada replay gerado as informações da quadra, data e horário em que a solicitação foi realizada
+
+**Atores:** Sistema
+
+**Objetivos:** 
+
+1. Identificar a quadra relacionada ao replay;  
+2. Registrar a data em que o replay foi gerado;  
+3. Registrar o horário da geração do replay;  
+4. Facilitar a identificação e consulta dos videos.
+
+**Fluxo principal:**
+
+1. O sistema gera o replay após o acionamento do botão;  
+2. O sistema identifica a quadra relacionada a solicitação  
+3. O sistema registra a data em que o replay foi gerado;   
+4. O sistema registra o horário em que o replay foi gerado. 
+
+**Fluxos alternativos:** 
+
+1. Caso ocorra um erro ao armazenar as informações, o sistema informa a falha e mantém o replay pendente para uma nova tentativa. 
+
+**Prioridade:** Essencial
+
+**Versão Gherkin:**  
+	Cenário: Associação automática de metadados durante a gravação  
+Dado que o replay foi acionado na "Quadra 2" da cidade "Crateús"  
+às   "19:30:00"  
+Quando o sistema processar o vídeo  
+  	Então deve gravar no banco os metadados {cidade: "Crateús",  
+quadra: "Quadra 2", data\_hora: "2026-09-24 19:30:00", patrocinador id: 5}. 
+
+**RF-10:** Exclusão de vídeos 
+
+**Descrição:** O cliente (dono da quadra) e/ou Administrador, se desejar excluir um certo vídeo a hora que quiser, assim ele poderá, ao invés de ter que esperar a exclusão automaticamente 
+
+**Ator:** Cliente e Administrador 
+
+Fluxo principal:   
+1\. O cliente ou Administrador loga em sua conta   
+2\. Busca a arena desejada   
+3\. Seleciona o horário do vídeo   
+4\. Encontra o vídeo   
+5\. Exclui o video manualmente
+
+ **Prioridade:** Desejável 
+
+**Versão Gherkin:**  
+Cenário: Exclusão manual autorizada pelo proprietário da quadra   
+Dado que o Cliente proprietário da quadra está logado   
+Quando solicitar a exclusão manual do vídeo ID \#1045 informando o motivo "Solicitação do usuário"  
+ Então o sistema deve remover o vídeo imediatamente (RN-04) E registrar um log de auditoria da ação 
+
+**RF-11:** Solicitação de recuperação de senha 
+
+**Descrição:** O usuário se desejar poderá mudar de senha ou recupera-lá caso tenha esquecido
+
+**Ator**: Usuário 
+
+**Fluxo principal:**   
+1\. O usuário entra na tela de login   
+2\. Solicita a mudança de senha   
+3\. Escolhe entre receber o código de verificação por email ou telefone   
+4\. Usuário digita o código   
+5\. Sistema solicita digitar a nova senha duas vezes   
+6\. Sistema retorna a tela de login 
+
+Fluxo Alternativo:   
+1\. O usuário entra na tela de login   
+2\. Solicita a mudança de senha   
+3\. Escolhe entre receber o código de verificação por email ou telefone  
+4\. Usuário digita o código incorreto   
+5\. Sistema aponta código inválido   
+6\. Sistema retorna para passo 2 
+
+**Prioridade:** Importante 
+
+**Versão Gherkin:**  
+Cenário: Recuperação de senha via e-mail com sucesso   
+Quando solicito a mudança de senha   
+E escolho receber o código de verificação por e-mail  
+Então recebo um código de verificação no e-mail cadastrado   
+Quando digito o código correto  
+Então o sistema solicita que eu digite a nova senha duas vezes Quando informo a mesma nova senha nos dois campos  
+Então minha senha é alterada E sou redirecionado para a tela de login 
+
+Cenário: Recuperação de senha via telefone com sucesso   
+Quando solicito a mudança de senha   
+E escolho receber o código de verificação por telefone   
+Então recebo um código de verificação por SMS no telefone cadastrado   
+Quando digito o código correto   
+Então o sistema solicita que eu digite a nova senha duas vezes Quando informo a mesma nova senha nos dois campos   
+Então minha senha é alterada   
+E sou redirecionado para a tela de login 
+
+Cenário: Código de verificação incorreto   
+Quando solicito a mudança de senha   
+E escolho receber o código de verificação por e-mail   
+E digito um código incorreto   
+Então o sistema aponta "Código inválido"   
+E retorno para a etapa de escolha do meio de recebimento do código 
+
+Cenário: Nova senha e confirmação não coincidem   
+Dado que digitei o código de verificação corretamente   
+Quando informo a nova senha e uma confirmação diferente dela   
+Então o sistema informa "As senhas não coincidem"   
+E permaneço na tela de redefinição de senha  
+   
+Cenário: Nova senha não atende aos critérios mínimos   
+Dado que digitei o código de verificação corretamente   
+Quando informo uma nova senha que não atende aos critérios mínimos de segurança   
+Então o sistema informa os requisitos não atendidos  
+E a senha não é alterada 
+
+Cenário: E-mail ou telefone não cadastrado   
+Quando solicito a mudança de senha   
+E informo um e-mail ou telefone não cadastrado no sistema   
+Então o sistema informa "Não encontramos uma conta com esses dados"   
+E nenhum código é enviado 
+
+**RF-12:** Solicitação de cadastro como gestor de quadra 
+
+**Descrição:** O cliente faz uma solicitação para ser gestor de quadra e após ser aprovada por um dos administradores ele se torna um administrador de quadra 
+
+**Atores:** Cliente e Administradores
+
+ **Fluxo Principal**:   
+1\. Cliente entra na tela de cadastro para administradores   
+2\. Insere dados válidos   
+3\. Um dos administradores verifica e confirma o cadastro   
+4\. O cliente agora com novas permissões dentro do sistema pode usufruir do perfil de administrador 
+
+**Fluxo alternativo:**
+
+ \- Caso outro usuário tente se cadastrar sem ser dono de uma quadra os administradores não aprovaram o cadastro  
+ \- Caso o email já esteja cadastrado, o sistema deve informar que já existe uma conta associada.   
+\- Caso o cliente insira dados incorretos, será feito um indeferimento recorrendo a correção desses dados \- Prioridade: Essencial 
+
+**Versão Gherkin:**  
+Cenário: Solicitação de cadastro com dados válidos   
+Quando insiro dados válidos e envio a solicitação de cadastro   
+Então a solicitação fica pendente de aprovação   
+E um administrador é notificado da nova solicitação 
+
+Cenário: Aprovação da solicitação pelo administrador   
+Dado que existe uma solicitação de cadastro pendente com dados válidos  
+Quando um administrador verifica e confirma o cadastro  
+Então o cliente passa a ter o perfil de administrador de quadra   
+E o cliente é notificado da aprovação 
+
+Cenário: Reprovação por solicitante não ser dono de quadra   
+Dado que existe uma solicitação de cadastro de um usuário que não é dono de uma quadra   
+Quando um administrador avalia a solicitação   
+Então a solicitação é reprovada E o cliente não recebe o perfil de administrador de quadra   
+E o cliente é notificado da reprovação
+
+Cenário: Tentativa de cadastro com e-mail já existente   
+Dado que já existe uma conta cadastrada com o e-mail "cliente@email.com"   
+Quando tento enviar uma solicitação de cadastro com o e-mail "cliente@email.com"   
+Então o sistema informa "Já existe uma conta associada a este e-mail" E a solicitação não é criada 
+
+Cenário: Solicitação com dados incorretos é indeferida   
+Dado que existe uma solicitação de cadastro com dados incorretos ou incompletos   
+Quando um administrador avalia a solicitação   
+Então a solicitação é indeferida   
+E o sistema indica quais dados precisam ser corrigidos  
+E o cliente pode reenviar a solicitação com os dados corrigidos 
+
+Cenário: Reenvio da solicitação após correção dos dados  
+Dado que recebi um indeferimento solicitando correção de dados Quando corrijo os dados e reenvio a solicitação   
+Então a solicitação volta a ficar pendente de aprovação 
+
