@@ -15,8 +15,10 @@ services:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - tagravado_db_data:/var/lib/postgresql/data
-      # schema + seed; só rodam na primeira criação do volume (`down -v` para reaplicar).
-      - ../pi2-backend/src/db/init:/docker-entrypoint-initdb.d:ro
+      # o script aplica init/ e depois migrations/ do backend, em ordem.
+      # arquivo .sql novo entra sozinho, sem editar este compose.
+      - ../pi2-backend/src/db:/sql:ro
+      - ./scripts/initdb-aplica-sql.sh:/docker-entrypoint-initdb.d/001_aplica_sql.sh:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tagravado} -d ${POSTGRES_DB:-tagravado}"]
       interval: 5s
@@ -40,10 +42,14 @@ services:
       HOST: 0.0.0.0
       PORT: 3000
       # backend conecta no db pelo nome do serviço na rede interna.
-      # como o front usa o proxy do vite, não precisa de cors; se chamar :3000 direto do
-      # browser, habilitar @fastify/cors.
+      # a partir de sprint-03 o backend usa Better Auth (sessão em cookie) e lê
+      # AUTH_DATABASE_URL/REPLAY_DATABASE_URL separadamente — mesmas credenciais, mesmo db.
       DATABASE_URL: postgresql://${POSTGRES_USER:-tagravado}:${POSTGRES_PASSWORD:-tagravado}@db:5432/${POSTGRES_DB:-tagravado}
-      JWT_SECRET: ${JWT_SECRET:-change-me}
+      AUTH_DATABASE_URL: postgresql://${POSTGRES_USER:-tagravado}:${POSTGRES_PASSWORD:-tagravado}@db:5432/${POSTGRES_DB:-tagravado}
+      REPLAY_DATABASE_URL: postgresql://${POSTGRES_USER:-tagravado}:${POSTGRES_PASSWORD:-tagravado}@db:5432/${POSTGRES_DB:-tagravado}
+      # BETTER_AUTH_URL = origem pública que o browser enxerga (vite proxy mantém same-origin em dev).
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:5173}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-change-me-in-env}
       DB_POOL_MAX: ${DB_POOL_MAX:-10}
     volumes:
       # Bind mount + volume anônimo em node_modules: hot reload via `tsx watch` sem sobrescrever deps do container.

@@ -2,4 +2,8 @@
 .env.local
 .env.*.local
 
+# overrides locais do compose — não comitar (ex: aponta para worktree em teste)
+docker-compose.override.yml
+docker-compose.override.yaml
+
 .DS_Store
