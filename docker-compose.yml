@@ -71,12 +71,14 @@ services:
       CHOKIDAR_USEPOLLING: "true"
       # alvo do proxy /api do vite (ver vite.config.ts do frontend).
       API_PROXY_TARGET: ${API_PROXY_TARGET:-http://backend:3000}
+      # vite também lê VITE_* do ambiente, e o ambiente tem prioridade sobre .env*.
+      # mapeia só o que o frontend usa, sem expor o restante do .env ao container.
+      VITE_API_URL: ${VITE_API_URL:-/api}
+      VITE_USE_MOCKS: ${VITE_USE_MOCKS:-false}
+      VITE_APP_ENV:
     volumes:
       - ../pi2-frontend:/app
       - /app/node_modules
-      # vite só lê VITE_* de arquivos .env*. montar o .env do pmo aqui garante
-      # que VITE_USE_MOCKS e VITE_API_URL cheguem ao browser.
-      - ./.env:/app/.env.local:ro
     networks:
       - pi2-net
 
