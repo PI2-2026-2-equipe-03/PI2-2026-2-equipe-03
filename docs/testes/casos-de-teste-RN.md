@@ -107,7 +107,7 @@
 #### Registro de Execução
 | Testador | Data | Status | Defeito (Issue) | Observações |
 | :--- | :---: | :---: | :---: | :--- |
-| Rick | 17/10/2026 | **Reprovado** | Issue #7 | Ao realizar sucessivas tentativas de login, o usuário não é bloqueado |
+| Rick | 17/10/2026 | Aprovado | - |  |
 
 ---
 
