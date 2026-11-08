@@ -406,7 +406,7 @@ E sou redirecionado para a tela de login
 
 Cenário: Código de verificação incorreto   
 
-	Quando solicito a mudança de senha   
+Quando solicito a mudança de senha   
 E escolho receber o código de verificação por e-mail   
 E digito um código incorreto   
 Então o sistema aponta "Código inválido"   
