@@ -1,4 +1,4 @@
-# TaGravado - Sistema de Replay para Quadras Esportivas
+# Repeteco - Sistema de Replay para Quadras Esportivas
 
 > Repositório principal do projeto **TaGravado** - concentra a documentação, o planejamento e os links para os repositórios técnicos (frontend e backend). Trabalho de conclusão do **Projeto Integrador 2 (2026/2) - Equipe 03**, sob orientação do professor Bruno Riccelli.
 
