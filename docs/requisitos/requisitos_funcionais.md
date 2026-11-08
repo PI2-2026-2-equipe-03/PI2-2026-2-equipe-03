@@ -1,6 +1,6 @@
 1. **Requisitos Funcionais**
 
-**RF-01: Cadastro de usuário**
+**RF-01:** Cadastro de usuário 
 
 **Descrição:** O sistema deve permitir que novos usuários realizem seu cadastro para acessar as funcionalidades relacionadas aos replays disponíveis na plataforma.
 
@@ -46,7 +46,7 @@ Quando tento cadastrar outro cliente com o mesmo
 CPF Então o cadastro não é realizado   
 E vejo a mensagem "CPF já cadastrado" 
 
-**RF-02: Login de usuário**
+**RF-02:** Login de usuário 
 
 **Descrição:**O sistema deve permitir que usuários cadastrados realizem login para acessar as funcionalidades disponíveis para sua conta, incluindo a visualização dos replays.
 
@@ -161,7 +161,7 @@ E vejo as métricas de uso do meu perfil
     	E vejo a mensagem "E-mail ou senha inválidos  
 E não tenho acesso ao dashboard
 
-**RF-05:** Gravar Vídeo
+**RF-05:** Gravar Vídeo \- Essencial
 
 **Descrição:**   
 O cliente aperta um botão na qual a câmera da quadra armazena os últimos 30 segundos gravados
@@ -193,7 +193,7 @@ Quando estou na arena
 E aperto o botão e solto em seguida  
 Então nenhum vídeo é armazenado
 
-**RF-06**: Baixar vídeo
+**RF-06**: Baixar vídeo 
 
 **Descrição:**   
 O usuário acessa um site onde ele consegue visualizar e baixar o vídeo escolhido
@@ -458,4 +458,97 @@ E o cliente pode reenviar a solicitação com os dados corrigidos
 Cenário: Reenvio da solicitação após correção dos dados  
 Dado que recebi um indeferimento solicitando correção de dados Quando corrijo os dados e reenvio a solicitação   
 Então a solicitação volta a ficar pendente de aprovação 
+
+**RF-13:** Confirmação de cadastro como gestor de quadra 
+
+Descrição: Após um usuário se cadastrar como gestor de quadra, um administrador poderá ou não aceitar a solicitação.
+
+**Atores:** Cliente e Administradores
+
+**Versão Gherkin:**
+
+Cenário: Solicitação confirmada  
+Quando um usuário se cadastra como gestor de quadras  
+E um administrador aprova a solicitação  
+Então o usuário comum muda para o perfil de Cliente
+
+Cenário: Solicitação reprovada  
+Quando um usuário se cadastra como gestor de quadras  
+E um administrador não aprova a solicitação  
+Então o usuário comum recebe de “Solicitação Reprovada”
+
+	**RF-14**: Cadastro câmeras 
+
+**Descrição:** Um cliente com quadra x deseja cadastrar uma câmera em sua arena
+
+**Atores:** Cliente
+
+**Versão Gherkin:**
+
+Cenário: câmera cadastrada  
+Quando um dono de quadra entra em na tela Câmeras  
+E clica em cadastrar câmeras  
+E insere todas as informações válidas para cadastrar uma câmera  
+Então aparece uma mensagem “Câmera Cadastrada”
+
+Cenário: câmera não cadastrada  
+Quando um dono de quadra entra em na tela Câmeras  
+E clicar em cadastrar câmeras  
+E insere nao insere todas as informações para cadastrar uma câmera  
+Então aparece uma mensagem “Câmera não Cadastrada”
+
+	**RF-15**: Excluir câmeras
+
+**Descrição:** Um cliente com quadra x deseja excluir uma câmera em sua arena
+
+**Atores:** Cliente  
+	  
+Cenário: câmera excluída  
+Quando um dono de quadra entra em na tela Câmeras  
+E clica em excluir câmeras  
+Então aparece uma mensagem “Câmera Excluída”
+
+Cenário: quadra sem câmeras cadastradas  
+Quando um dono de quadra entra na tela Câmeras  
+E não há nenhuma câmera cadastrada  
+Então ele volta para tela Câmeras
+
+	**RF-16 Cadastrar Quadras**
+
+**Descrição:** Um cliente com quadra x deseja cadastrar uma quadra em sua arena
+
+	**Atores:** Cliente
+
+	**Versão Gherkin:**
+
+	Cenário: Quadra cadastrada  
+Quando um dono de quadra entra em na tela Quadra  
+E clica em cadastrar Quadra  
+E insere todas as informações válidas para cadastrar uma Quadra  
+Então aparece uma mensagem “Quadra Cadastrada”
+
+Cenário: Quadra não cadastrada  
+Quando um dono de quadra entra em na tela Quadra  
+E clicar em cadastrar Quadra  
+E insere nao insere todas as informações para cadastrar uma Quadra  
+Então aparece uma mensagem “Quadra não Cadastrada”
+
+	  
+**RF-17 Excluir quadra**
+
+**Descrição:** Um cliente com quadra x deseja excluir uma quadra em sua arena
+
+	**Atores:** Cliente
+
+	**Versão Gherkin:**
+
+	Cenário: quadra excluída  
+Quando um dono de quadra entra em na tela quadra  
+E clica em excluir quadra  
+Então aparece uma mensagem “quadra Excluída”
+
+Cenário: quadra sem quadra cadastradas  
+Quando um dono de quadra entra na tela quadra  
+E não há nenhuma quadra cadastrada  
+Então ele volta para tela quadra
 
