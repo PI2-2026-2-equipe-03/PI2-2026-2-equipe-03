@@ -1,4 +1,4 @@
-# Regras de Negócio (RN) — Plataforma de Replays Esportivos
+# Regras de Negócio (RN) \- Plataforma de Replays Esportivos
 
 Este documento especifica as Regras de Negócio do sistema, definindo as políticas, restrições e lógicas operacionais que regem as funcionalidades da plataforma de replays esportivos.
 
