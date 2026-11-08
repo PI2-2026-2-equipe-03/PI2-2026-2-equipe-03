@@ -68,20 +68,20 @@
 
 Cada linha cruza as dimensões D1–D7 de um requisito funcional. Os detalhes de cada cruzamento estão nas seções seguintes.
 
-| RF | Título | Fase | Prioridade | Ator(es) no RF | Perfis com acesso | RN vinculadas | RNF aplicáveis | Cenários | Issue | PR | Teste | Status |
-|----|--------|:----:|------------|----------------|-------------------|---------------|----------------|:--------:|:-----:|:--:|:-----:|:------:|
-| RF-01 | Cadastro de usuário | 1 | Essencial | Usuário | Visitante | RN-09 ◐, RN-10 ◐ | RNF-01 a 05 | 2 ⚠️ | | | | |
-| RF-02 | Login de usuário | 1 | Essencial | Usuário | Usuário, Cliente, Administrador | RN-03 ◐, RN-06 ◐ | RNF-01 a 05 (RNF-04 ●) | 2 ⚠️ | | | | |
-| RF-03 | Métricas para o administrador | 1 | Importante | Administrador | Administrador | — | RNF-01 a 05 | 3 ⚠️ | | | | |
-| RF-04 | Métricas para o cliente | 1 | Importante | Cliente | Cliente | — | RNF-01 a 05 | 3 ⚠️ | | | | |
-| RF-05 | Gravar vídeo | 1 | Essencial | Usuário (jogador) | Qualquer pessoa na arena | RN-02 ◐, RN-08 △ | RNF-04 | 3 ⚠️ | | | | |
-| RF-06 | Baixar vídeo | 1 | Essencial | Usuário | Usuário, Cliente | RN-08 ◐, RN-01 △, RN-05 △ | RNF-01 a 05 (RNF-03 ●) | 4 ⚠️ | | | | |
-| RF-07 | Cadastrar patrocinadores | 1 | Importante | Cliente | Cliente | RN-05 ● | RNF-01 a 05 | 1 ⚠️ | | | | |
-| RF-08 | Tempo de disponibilidade dos vídeos | 1 | Importante | Sistema | — (automático) | RN-01 ● | — | 1 ✅ | | | | |
-| RF-09 | Associar informações ao replay | 1 | Essencial | Sistema | — (automático) | RN-05 ◐, RN-02 △ | RNF-04 | 1 ⚠️ | | | | |
-| RF-10 | Exclusão de vídeos | 1 | Desejável | Cliente, Administrador | Cliente (proprietário), Administrador | RN-04 ● | RNF-01 a 05 | 1 ⚠️ | | | | |
-| RF-11 | Solicitação de recuperação de senha | 1 | Importante | Usuário | Usuário, Cliente, Administrador | RN-07 ◐, RN-10 △ | RNF-01 a 05 | 6 ⚠️ | | | | |
-| RF-12 | Solicitação de cadastro como gestor de quadra | 1 | Essencial | Cliente*, Administrador | Usuário (solicita), Administrador (avalia) | RN-09 △ | RNF-01 a 05 | 6 ✅ | | | | |
+| RF | Título | Telas / componentes relacionados | Fase | Prioridade | Ator(es) no RF | Perfis com acesso | RN vinculadas | RNF aplicáveis | Cenários | Issue | PR | Teste | Status |
+|----|--------|----------------------------------|:----:|------------|----------------|-------------------|---------------|----------------|:--------:|:-----:|:--:|:-----:|:------:|
+| RF-01 | Cadastro de usuário | Criar conta / Cadastro de usuário | 1 | Essencial | Usuário | Visitante | RN-09 ◐, RN-10 ◐ | RNF-01 a 05 | 2 ⚠️ | | | | |
+| RF-02 | Login de usuário | Login / Credenciais inválidas | 1 | Essencial | Usuário | Usuário, Cliente, Administrador | RN-03 ◐, RN-06 ◐ | RNF-01 a 05 (RNF-04 ●) | 2 ⚠️ | | | | |
+| RF-03 | Métricas para o administrador | Dashboard administrativo / Métricas do administrador | 1 | Importante | Administrador | Administrador | — | RNF-01 a 05 | 3 ⚠️ | | | | |
+| RF-04 | Métricas para o cliente | Dashboard do cliente/organizador / Métricas das quadras | 1 | Importante | Cliente | Cliente | — | RNF-01 a 05 | 3 ⚠️ | | | | |
+| RF-05 | Gravar vídeo | Acionamento físico da botoeira na quadra (sem tela própria) | 1 | Essencial | Usuário (jogador) | Qualquer pessoa na arena | RN-02 ◐, RN-08 △ | RNF-04 | 3 ⚠️ | | | | |
+| RF-06 | Baixar vídeo | Vídeos / Listagem de replays / Visualização do vídeo / Download | 1 | Essencial | Usuário | Usuário, Cliente | RN-08 ◐, RN-01 △, RN-05 △ | RNF-01 a 05 (RNF-03 ●) | 4 ⚠️ | | | | |
+| RF-07 | Cadastrar patrocinadores | Gerenciamento de patrocinadores / Cadastro de patrocinador | 1 | Importante | Cliente | Cliente | RN-05 ● | RNF-01 a 05 | 1 ⚠️ | | | | |
+| RF-08 | Tempo de disponibilidade dos vídeos | Processamento automático de disponibilidade e expiração dos vídeos (sem tela própria) | 1 | Importante | Sistema | — (automático) | RN-01 ● | — | 1 ✅ | | | | |
+| RF-09 | Associar informações ao replay | Resultados / Informações associadas ao replay | 1 | Essencial | Sistema | — (automático) | RN-05 ◐, RN-02 △ | RNF-04 | 1 ⚠️ | | | | |
+| RF-10 | Exclusão de vídeos | Vídeos / Exclusão / Modal de confirmação | 1 | Desejável | Cliente, Administrador | Cliente (proprietário), Administrador | RN-04 ● | RNF-01 a 05 | 1 ⚠️ | | | | |
+| RF-11 | Solicitação de recuperação de senha | Recuperar senha / Código de verificação / Nova senha / Confirmação | 1 | Importante | Usuário | Usuário, Cliente, Administrador | RN-07 ◐, RN-10 △ | RNF-01 a 05 | 6 ⚠️ | | | | |
+| RF-12 | Solicitação de cadastro como gestor de quadra | Solicitação para se tornar organizador / Dados pessoais / Informações da arena / Documentos / Revisão / Feedback de envio / Validação administrativa | 1 | Essencial | Cliente*, Administrador | Usuário (solicita), Administrador (avalia) | RN-09 △ | RNF-01 a 05 | 6 ✅ | | | | |
 
 \* O RF-12 cita "Cliente" como ator, mas pelos Perfis quem solicita é o **Usuário** (ver I-02).
 
@@ -382,3 +382,4 @@ A numeração continua a do README de Governança (I-01 a I-21). Sugere-se abrir
 | Versão | Data | Descrição |
 |--------|------|-----------|
 | 0.1 | 18/10/2026 | Primeira consolidação: A1–A5, 12 RFs, 10 RNs, 5 RNFs, 33 cenários Gherkin; achados I-22 a I-36 |
+| 0.2 | 08/11/2026 | Inclusão da coluna "Telas / componentes relacionados" na matriz mestre e mapeamento dos RF-01 a RF-12 conforme o protótipo do Figma. |
