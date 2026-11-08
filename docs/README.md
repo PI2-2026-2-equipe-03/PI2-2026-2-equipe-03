@@ -32,24 +32,26 @@ O sistema foi arquitetado para suportar  a três classes de usuário, cada um co
 **4\. Inventário de Artefatos do sistema repeteco**
 
 1.  **Plano de projeto**  
-   caminho: PI-2026-2-equipe-3/docs/plano-de-projeto.md  
-2. **Requisitos Funcionais em Gherkin**  
-   caminho: PI-2026-2-equipe-3/docs/requisitos/requisitos-funcionais.d  
-3. **Requisitos Não Funcionais**
+   caminho: PI-2026-2-equipe-3/docs/requisitos/plano-de-projeto.md
+ 
+3. **Requisitos Funcionais em Gherkin**  
+   caminho: PI-2026-2-equipe-3/docs/requisitos/requisitos-funcionais.d
+   
+5. **Requisitos Não Funcionais**
 
 	caminho: PI-2026-2-equipe-3/docs/requisitos/requisitos-nao-funcionais.md
 
-4. **Regras de Negócio**
+6. **Regras de Negócio**
 
 	caminho: PI-2026-2-equipe-3/docs/requisitos/regras-de-negócio.md
 
-5. **Perfis de Usuário**
+7. **Perfis de Usuário**
 
-caminho: PI-2026-2-equipe-3/docs/perfis-de-usuario.md
+caminho: PI-2026-2-equipe-3/docs/requisitos/perfis-de-usuario.md
 
 6. **Matriz de Rastreabilidade**
 
-	caminho: PI-2026-2-equipe-3/docs/matriz-de-rastreabilidade
+	caminho: PI-2026-2-equipe-3/docs/requisitos/matriz-de-rastreabilidade
 
 7. **Entrevista com Cliente** 
 
@@ -57,5 +59,5 @@ caminho: PI-2026-2-equipe-3/docs/perfis-de-usuario.md
 
 8. **Matriz de Rota de Permissão**
 
-	caminho: PI-2026-2-equipe-3/docs/matriz-rotas-permissoes.md
+	caminho: PI-2026-2-equipe-3/docs/requisitos/matriz-rotas-permissoes.md
 
