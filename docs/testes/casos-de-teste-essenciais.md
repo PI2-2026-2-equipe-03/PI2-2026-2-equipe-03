@@ -193,7 +193,6 @@
 | Campo | Detalhes |
 | :--- | :--- |
 | **Identificador** | CT-007 |
-| **Versão** | 1.0 |
 | **Suíte de Teste** | ST-04 Gestão e Moderação de Gestores de Quadra |
 | **Autor** | Rick |
 | **Requisito Coberto** | `RF-12` (Solicitação de Cadastro como Gestor de Quadra) |
@@ -213,7 +212,7 @@
 #### Registro de Execução
 | Testador | Data | Status | Defeito | Observações |
 | :--- | :---: | :---: | :---: | :--- |
-| Rick | 08/11/2026 |  | - |  |
+| Rick | 08/11/2026 | Aprovado | - | Solicitação devidamente registrada no banco de dados com o status correto. |
 
 ---
 
@@ -222,7 +221,6 @@
 | Campo | Detalhes |
 | :--- | :--- |
 | **Identificador** | CT-008 |
-| **Versão** | 1.0 |
 | **Suíte de Teste** | ST-04 Gestão e Moderação de Gestores de Quadra |
 | **Autor** | Rick |
 | **Requisito Coberto** | `RF-12` (Solicitação de Cadastro como Gestor de Quadra) |
@@ -241,7 +239,7 @@
 #### Registro de Execução
 | Testador | Data | Status | Defeito | Observações |
 | :--- | :---: | :---: | :---: | :--- |
-| Rick | 08/11/2026 |  | - |  |
+| Rick | 08/11/2026 | Aprovado | - | Mensagem de "já existe uma solicitação pendente" está sendo aplicada corretamente. |
 
 ---
 
@@ -250,7 +248,6 @@
 | Campo | Detalhes |
 | :--- | :--- |
 | **Identificador** | CT-009 |
-| **Versão** | 1.0 |
 | **Suíte de Teste** | ST-04 Gestão e Moderação de Gestores de Quadra |
 | **Autor** | Rick |
 | **Requisito Coberto** | `RF-13` (Confirmação de Cadastro como Gestor de Quadra) e `RF-12` |
@@ -270,7 +267,7 @@
 #### Registro de Execução
 | Testador | Data | Status | Defeito | Observações |
 | :--- | :---: | :---: | :---: | :--- |
-| Rick | 08/11/2026 |  | - |  |
+| Rick | 08/11/2026 | Bloqueado | - | Como todas as senhas de admin no seed estão em hash, nao consigo entrar numa conta admin. |
 
 ---
 
@@ -299,7 +296,7 @@
 #### Registro de Execução
 | Testador | Data | Status | Defeito | Observações |
 | :--- | :---: | :---: | :---: | :--- |
-| Rick | 08/11/2026 | | - |  |
+| Rick | 08/11/2026 | Bloqueado | - | Como todas as senhas de admin no seed estão em hash, nao consigo entrar numa conta admin. |
 
 ---
 
