@@ -53,9 +53,9 @@ caminho: PI-2026-2-equipe-3/docs/perfis-de-usuario.md
 
 7. **Entrevista com Cliente** 
 
-caminho: PI-2026-2-equipe-3/docs/requisitos/entrevista-proj-integrador.md
+	caminho: PI-2026-2-equipe-3/docs/requisitos/entrevista-proj-integrador.md
 
 8. **Matriz de Rota de Permissão**
 
-caminho: PI-2026-2-equipe-3/docs/matriz-rotas-permissoes.md
+	caminho: PI-2026-2-equipe-3/docs/matriz-rotas-permissoes.md
 
