@@ -1,2 +1,0 @@
-# scripts rodam dentro de containers linux; CRLF quebra o shebang no Windows.
-*.sh text eol=lf
