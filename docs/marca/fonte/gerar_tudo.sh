@@ -5,5 +5,5 @@ set -e
 cd "$(dirname "$0")"
 PY=${PYTHON:-python3}
 $PY preparar_fontes.py
-for s in gerar_logos gerar_social gerar_icones gerar_emojis gerar_ilustracoes gerar_teco anim gerar_loader_css gerar_emojis_anim gerar_png gerar_visao_geral; do $PY $s.py; done
+for s in gerar_logos gerar_social gerar_icones gerar_emojis gerar_ilustracoes gerar_avatares gerar_teco anim gerar_loader_css gerar_emojis_anim gerar_png gerar_visao_geral; do $PY $s.py; done
 echo "pronto. Motion: veja ../motion/LEIA-ME.md"

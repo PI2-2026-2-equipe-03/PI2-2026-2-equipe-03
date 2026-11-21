@@ -156,6 +156,38 @@ Regra de composição: tudo fica dentro do palco. Só as "figurinhas" com borda 
 
 No front, `<Ilustracao nome="sem-conexao" />` e `<EmptyState ilustracao="sem-replays" … />` (veja a seção 12).
 
+## 9.1 Avatares de usuário: a galera da quadra ([`avatares/`](./avatares))
+
+O banco não guarda foto de perfil, então cada usuário ganha um de 12 personagens do universo do repeteco: vôlei, praia, gravação e replay. Todos usam o rosto do Teco (olho branco com pupila e brilho, sorriso de traço redondo, bochecha coral), então parecem da mesma família sem repetir o mascote.
+
+| Arquivo | Personagem | Fundo |
+|---|---|---|
+| `saque` | bola de vôlei tricolor com faixa na testa | laranja, linhas de quadra |
+| `sol` | sol de praia de óculos escuros | céu e areia |
+| `rec` | câmera da quadra; a lente é o olho, com a luz REC acesa | amarelo com raios |
+| `botao` | o botão da quadra, feliz por ter sido apertado | gelo com bolinhas |
+| `apito` | apito do juiz, de bochecha cheia | coral com raios |
+| `claquete` | claquete do replay entrando em cena | lilás com bolinhas |
+| `ampulheta` | os 30 segundos de cada replay | azul-noite com estrelas |
+| `taca` | taça de campeão | azul com confete |
+| `tenis` | tênis de quadra pronto pra pular | verde, linhas de quadra |
+| `coco` | coco verde no intervalo da praia | areia e mar |
+| `placar` | placar marcando 21 × 19 | azul-médio com a malha da rede |
+| `pipoca` | pipoca para assistir o replay | vermelho, cortina de cinema |
+
+![avatares](./avatares/avatares-preview.png)
+
+**Regras de desenho:**
+- Canvas de 256 com recorte circular. O personagem ocupa uns 70% do círculo e só pode sair do quadro por baixo (poste, corpo).
+- Contorno único de 6 px (cerca de 0,75 px no header, a 32 px) e detalhes internos de 3 a 4 px.
+- Cada avatar tem uma cor de fundo própria e uma textura leve que diz onde ele vive. Assim, numa lista, as pessoas se distinguem pela cor antes mesmo de ver o desenho.
+
+**Qual avatar cada pessoa recebe:** um hash (FNV-1a) do **id** do usuário escolhe um dos 12. O id é a chave porque nunca muda. Pelo nome, o avatar trocaria quando a pessoa editasse o perfil. Pela idade, trocaria todo aniversário, e o `/me` nem devolve idade. Sem id, o hash usa o e-mail e depois o nome. Num teste com 120 mil UUIDs, cada avatar ficou com 8,1% a 8,5% das pessoas.
+
+**Papel:** o componente põe um selo no canto do avatar: coroa amarela para administrador, escudo azul para gestor de arena e nenhum selo para usuário comum.
+
+Arquivos: `svg/` (para o front), `png-512/`, `png-128/` e `indice.json` (nome e descrição de cada um). Para criar mais, adicione uma função em [`fonte/gerar_avatares.py`](./fonte/gerar_avatares.py) e o nome na lista `AVATARES` do front. Atenção: mudar o tamanho da lista muda o avatar de quase todo mundo, então é melhor fazer isso antes do lançamento.
+
 ## 10. Loading ([`loading/`](./loading))
 
 O "e" se desenha, a seta estala, ele rebobina e se desfaz. Ciclo de 1,8 s.
@@ -187,7 +219,7 @@ Como editar e renderizar de novo: [`motion/LEIA-ME.md`](./motion/LEIA-ME.md).
 
 ## 12. No front
 
-Logo em componente React (mesma API do `Logo` atual), loader, ícones, ilustrações de estado (com o `EmptyState`, o `QueryErrorState`, o player e as capas de mídia já usando elas), favicons, manifest e imagem de preview. Esse kit é mantido no repositório [pi2-frontend](https://github.com/PI2-2026-2-equipe-03/pi2-frontend), não aqui — esta cópia da pasta `marca/` é só a fonte de referência visual (logo, cores, ícones, ilustrações, motion), sem a pasta `front-kit/`.
+Logo em componente React (mesma API do `Logo` atual), loader, ícones, avatares de usuário (no header e no perfil), ilustrações de estado (com o `EmptyState`, o `QueryErrorState`, o player e as capas de mídia já usando elas), favicons, manifest e imagem de preview. Esse kit é mantido no repositório [pi2-frontend](https://github.com/PI2-2026-2-equipe-03/pi2-frontend), não aqui — esta cópia da pasta `marca/` é só a fonte de referência visual (logo, cores, ícones, avatares, ilustrações, motion), sem a pasta `front-kit/`.
 
 ## 13. Regenerar tudo
 

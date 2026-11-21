@@ -15,6 +15,9 @@ for f in glob.glob(M+'/emojis/svg/*.svg'):
 for f in glob.glob(M+'/ilustracoes/svg/*.svg'):
     n=os.path.basename(f)[:-4]; jobs.append([f,f'{M}/ilustracoes/png/{n}.png',960,None])
 for f in glob.glob(M+'/ilustracoes/capas/*.svg'): jobs.append([f,f[:-4]+'.png',1280 if 'capa-' in f else 512,None])
+for f in glob.glob(M+'/avatares/svg/*.svg'):
+    n=os.path.basename(f)[:-4]; jobs.append([f,f'{M}/avatares/png-512/{n}.png',512,None]); jobs.append([f,f'{M}/avatares/png-128/{n}.png',128,None])
+jobs.append([M+'/avatares/avatares-preview.svg',M+'/avatares/avatares-preview.png',1300,None])
 jobs.append([M+'/ilustracoes/ilustracoes-preview.svg',M+'/ilustracoes/ilustracoes-preview.png',2000,None])
 for pat,w in [('/teco/cenas/*.svg',1080),('/teco/ficha/*.svg',2400),('/social/carrossel-como-funciona/*.svg',1080),('/social/stories/*.svg',1080),('/social/frases/*.svg',1080)]:
     for f in glob.glob(M+pat): jobs.append([f,f[:-4]+'.png',w,None])
