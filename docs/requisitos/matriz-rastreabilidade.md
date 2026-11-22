@@ -16,6 +16,11 @@ Esta matriz relaciona as funcionalidades do sistema com as restrições e qualid
 | **RF-10** | Exclusão de vídeos | RNF-01, RNF-02 | Acesso administrativo manual via tela, necessitando suportar temas e resoluções variadas. |
 | **RF-11** | Solicitação de recuperação de senha | RNF-01, RNF-02, RNF-04, RNF-05 | Envolve segurança na emissão e validação de tokens, além de interface amigável para o usuário final. |
 | **RF-12** | Solicitação de cadastro como gestor | RNF-01, RNF-02, RNF-05 | Formulários de entrada que precisam ser acessíveis, responsivos e seguir a identidade visual. |
+| **RF-13** | Confirmação de cadastro como gestor de quadra  | RNF-04, RNF-05 | Envolve segurança ao fato das tentativas de acesso e interface intuitiva |
+| **RF-14** | Cadastro câmeras  | RNF-05, RNF-02 | A interface deve ser intuitiva e sem a necessidade de treinamento prévio para seu uso |
+| **RF-15** | Excluir câmeras | RNF-05, RNF-02 | A interface deve ser intuitiva e sem a necessidade de treinamento prévio para seu uso |
+| **RF-16** | Cadastrar Quadras | RNF-05, RNF-02 | A interface deve ser intuitiva e sem a necessidade de treinamento prévio para seu uso |
+| **RF-17** | Excluir quadra | RNF-05, RNF-02 | A interface deve ser intuitiva e sem a necessidade de treinamento prévio para seu uso |
 
 ### 
 
@@ -31,9 +36,9 @@ Esta matriz rastreia como as restrições lógicas e diretrizes de negócio impa
 | **RN-04** | Permissão de Exclusão Manual de Vídeos | **RF-10** (Exclusão de vídeos) |
 | **RN-05** | Vinculação Obrigatória de Patrocinador em Replays | **RF-07** (Cadastrar patrocinadores), **RF-09** (Associar informações ao replay) |
 
-**Requisitos Funcionais x Rotas de Usuário**
+### **Requisitos Funcionais x Rotas de Usuário**
 
-| Rotas | Requisitos F | Regras de Negócio |
+| Rotas | Requisitos Funcionais | Regras de Negócio |
 | :---- | :---- | :---- |
 | tela-de-login/ Tela de Cadastro/ | RF-01 e RF-02 | RN-09 e RN-10 |
 | tela-de-login/ inicio/ Selecionar Cidade / Selecionar Arena/ Selecionar Quadra/ Selecionar data e Hora/ Selecionar vídeo | RF-06 | RN-08 |
@@ -42,7 +47,7 @@ Esta matriz rastreia como as restrições lógicas e diretrizes de negócio impa
 | Login/ Inicio/ gestão de quadra/ painel administrativo | RF-03 e RF-04 |  |
 | Login/ Inicio/ gestão de quadra/ painel administrativo/excluir quadra | RF-10 | RN-04 |
 | Login/ Inicio/ gestão de quadra/ Cadastrar Patrocinador | RF-07 | RN-05 |
-| Login/ Inicio/ gestão de quadra/ Cadastrar Camera | RF-15 |  |
-| Login/ Inicio/ gestão de quadra/ Cadastrar Quadra | RF-14 |  |
+| Login/ Inicio/ gestão de quadra/ Cadastrar Quadra | RF-15 e RF-14  |  |
+| Login/ Inicio/ gestão de quadra/ Cadastrar Camera | RF-16 e RF-17 |  |
 | Login/ inicio/ validar gestores | RF-13 |  |
 
