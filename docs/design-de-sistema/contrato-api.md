@@ -1,435 +1,422 @@
 # Contrato da API
 
-## Mapeamento entre Rotas e Requisitos Funcionais
+Contrato do backend do TaGravado, alinhado à implementação atual (Fastify + Better Auth + PostgreSQL). A documentação interativa (OpenAPI 3.1) está em `/api-docs` e o JSON em `/api/openapi.json`.
 
-A tabela abaixo relaciona os endpoints definidos no contrato da API com os requisitos funcionais atendidos por cada rota.
+## Mapeamento entre rotas e requisitos funcionais
 
-| Método | Endpoint | Requisito Funcional | Descrição |
-|---|---|---|---|
-| POST | `/auth/register` | RF-01 | Cadastro de usuário |
-| POST | `/auth/login` | RF-02 | Login de usuário |
-| GET | `/admin/metrics` | RF-03 | Métricas para o administrador |
-| GET | `/manager/metrics` | RF-04 | Métricas para o cliente/gestor |
-| POST | `/replays` | RF-05 / RF-09 | Grava o replay e associa quadra, data e horário |
-| GET | `/replays/{id}/download` | RF-06 | Download de vídeo |
-| POST | `/sponsors` | RF-07 | Cadastro de patrocinadores |
-| DELETE | `/replays/{id}` | RF-10 | Exclusão manual de vídeos |
-| POST | `/auth/forgot-password` | RF-11 | Solicitação de recuperação de senha |
-| POST | `/manager-requests` | RF-12 | Solicitação de cadastro como gestor de quadra |
+| Método | Endpoint | Requisito | Acesso | Descrição |
+|---|---|---|---|---|
+| POST | `/auth/register` | RF-01 | Público | Cadastro de usuário |
+| POST | `/auth/login` | RF-02 | Público | Login |
+| GET | `/me` | RF-02 | Autenticado | Usuário autenticado e perfil |
+| GET | `/admin/metrics` | RF-03 | ADM | Métricas do administrador |
+| GET | `/manager/metrics` | RF-04 | CLI/ADM (gestor) | Métricas do gestor |
+| POST | `/replays` | RF-05 / RF-09 | CLI/ADM (dono da quadra) | Gera replay e associa quadra, data e horário |
+| GET | `/arenas` | RF-06 | Público | Busca de arenas por cidade/nome |
+| GET | `/quadras` | RF-06 | Público | Lista de quadras |
+| GET | `/replays` | RF-06 | Autenticado | Lista de replays disponíveis |
+| GET | `/replays/{id}` | RF-06 | Autenticado | Detalhes do replay |
+| GET | `/replays/{id}/download` | RF-06 | Autenticado | Link de download MP4 |
+| POST | `/sponsors` | RF-07 | CLI/ADM (gestor) | Cadastro de patrocinador |
+| DELETE | `/replays/{id}` | RF-10 | CLI/ADM | Exclusão manual |
+| POST | `/auth/forgot-password` | RF-11 | Público | Solicita recuperação de senha |
+| POST | `/auth/reset-password` | RF-11 | Público | Redefine a senha |
+| POST | `/manager-requests` | RF-12 | Autenticado | Solicita perfil de gestor |
+| PATCH | `/manager-requests/{id}` | RF-12 | ADM | Aprova ou rejeita solicitação |
 
-Observação: o RF-08 define a exclusão automática dos vídeos após 7 dias. Como esse comportamento é executado internamente pelo sistema, ele não foi representado como um endpoint público específico neste contrato.
+RF-08 (exclusão automática após 7 dias) é executado internamente: rotina diária que marca replays vencidos (`expira_em`, 168 h) como `excluido` e enfileira a exclusão da mídia. Na Vercel, é disparado por `GET /api/cron/expire-replays` (cron às 03:00, protegido por `Authorization: Bearer <CRON_SECRET>`); fora dela, por agendamento interno a cada 24 h.
 
-## Visão geral
+## Convenções
 
-Este documento descreve o contrato da API do sistema de replays esportivos, com base nos requisitos funcionais definidos para o projeto.
+Todas as rotas usam JSON. Não há prefixo `/api`, exceto as rotas nativas do Better Auth (`/api/auth/*`), `/api/health` e `/api/openapi.json`.
 
-A API utiliza JSON para envio e recebimento de dados, exceto em rotas relacionadas ao download de vídeos.
+Identificadores são UUID (string), exceto `manager-requests`, cujo `id` é numérico.
 
-Base sugerida da API:
-
-```text
-/api
-```
-
-Para rotas protegidas, o cliente deve enviar o token de autenticação no cabeçalho:
+Rotas protegidas aceitam token Bearer ou cookie de sessão do Better Auth:
 
 ```text
 Authorization: Bearer <token>
 ```
 
-Os exemplos abaixo representam uma proposta de contrato para implementação do sistema. Alguns detalhes técnicos, como uso de JWT, identificadores numéricos e nomes exatos dos campos, são decisões de projeto.
+A sessão expira após 30 minutos de inatividade (1800 s); cada requisição autenticada renova o prazo.
+
+Perfis de acesso (`/me`): `ADM` (administrador), `CLI` (cliente/gestor de arena) e `USR` (usuário). Nas respostas de cadastro e login, o campo `role` usa `USER`, `MANAGER` e `ADMIN`.
+
+Formato de erro:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "email: Informe um e-mail válido"
+  }
+}
+```
+
+Códigos usados: `VALIDATION_ERROR`, `UNAUTHENTICATED`, `INCOMPLETE_ACCOUNT`, `FORBIDDEN`, `NOT_FOUND`, `CONFLICT`, `ACCOUNT_LOCKED`, `INVALID_RECOVERY_CODE`, `INTERNAL_ERROR`, `REQUEST_ERROR`.
+
+Erros comuns a rotas protegidas: `401` (sessão ausente, inválida ou expirada por inatividade), `403` (cadastro incompleto, `INCOMPLETE_ACCOUNT`, ou perfil sem permissão, `FORBIDDEN`).
 
 ## 1. Cadastrar usuário
 
 ### POST /auth/register
 
-Cadastra um novo usuário no sistema.
-
-### Entrada
+Entrada:
 
 ```json
 {
   "name": "João da Silva",
   "email": "joao@email.com",
   "phone": "85999999999",
-  "password": "senha123"
+  "password": "Senha@2026",
+  "confirmPassword": "Senha@2026"
 }
 ```
 
-### Saída de sucesso
+`confirmPassword` é opcional. E-mail e telefone são normalizados (telefone: 10 a 15 dígitos, sem máscara) e devem ser únicos.
 
-Status: `201 Created`
+Senha: 8 a 72 caracteres, com maiúscula, minúscula, número e caractere especial.
+
+Sucesso: `201 Created`
 
 ```json
 {
-  "id": 1,
+  "id": "uuid",
   "name": "João da Silva",
   "email": "joao@email.com",
-  "phone": "85999999999",
-  "role": "USER",
-  "createdAt": "2026-09-24T14:00:00Z"
+  "emailVerified": false,
+  "image": null,
+  "createdAt": "2026-09-24T14:00:00Z",
+  "updatedAt": "2026-09-24T14:00:00Z",
+  "role": "USER"
 }
 ```
 
-### Possíveis erros
+Erros: `400` (campos ausentes ou JSON malformado), `409` (e-mail ou telefone já vinculado a uma conta), `422` (senha fraca ou senhas não coincidem).
 
-Status: `400 Bad Request`
-
-```json
-{
-  "error": "Todos os campos obrigatórios devem ser preenchidos."
-}
-```
-
-Status: `409 Conflict`
-
-```json
-{
-  "error": "Já existe uma conta associada a este e-mail."
-}
-```
-
-## 2. Login do usuário
+## 2. Login
 
 ### POST /auth/login
 
-Autentica um usuário cadastrado no sistema.
-
-### Entrada
+Entrada:
 
 ```json
 {
   "email": "joao@email.com",
-  "password": "senha123"
+  "password": "Senha@2026"
 }
 ```
 
-### Saída de sucesso
-
-Status: `200 OK`
+Sucesso: `200 OK`
 
 ```json
 {
   "token": "token-de-autenticacao",
   "expiresIn": 1800,
   "user": {
-    "id": 1,
+    "id": "uuid",
     "name": "João da Silva",
     "email": "joao@email.com",
+    "emailVerified": false,
+    "image": null,
+    "createdAt": "2026-09-24T14:00:00Z",
+    "updatedAt": "2026-09-24T14:00:00Z",
     "role": "USER"
   }
 }
 ```
 
-O campo `expiresIn` representa o tempo de sessão em segundos. Neste contrato foi adotado o valor de 1800 segundos, equivalente a 30 minutos.
+Erros:
 
-### Possíveis erros
+`401`: `E-mail ou senha inválidos`.
 
-Status: `401 Unauthorized`
-
-```json
-{
-  "error": "E-mail ou senha inválidos."
-}
-```
-
-Status: `429 Too Many Requests`
+`429`: após 5 falhas consecutivas para o mesmo e-mail e IP, o login é bloqueado por 15 minutos, mesmo com a senha correta. A resposta inclui o cabeçalho `Retry-After: 900`.
 
 ```json
 {
-  "error": "Número máximo de tentativas de login excedido.",
-  "retryAfter": 300
+  "error": {
+    "code": "ACCOUNT_LOCKED",
+    "message": "Conta temporariamente bloqueada por 15 minutos"
+  }
 }
 ```
 
-## 3. Solicitar recuperação de senha
+## 3. Usuário autenticado
+
+### GET /me
+
+Requer autenticação.
+
+Sucesso: `200 OK`
+
+```json
+{
+  "data": {
+    "id": "uuid",
+    "name": "João da Silva",
+    "email": "joao@email.com",
+    "role": "USR"
+  }
+}
+```
+
+## 4. Solicitar recuperação de senha
 
 ### POST /auth/forgot-password
 
-Solicita o envio de um e-mail para redefinição de senha.
-
-### Entrada
+Entrada:
 
 ```json
-{
-  "email": "joao@email.com"
-}
+{ "email": "joao@email.com" }
 ```
 
-### Saída de sucesso
-
-Status: `200 OK`
+Sucesso: `200 OK` (resposta idêntica para e-mails cadastrados e não cadastrados)
 
 ```json
-{
-  "message": "Se o e-mail estiver cadastrado, uma mensagem de recuperação será enviada."
-}
+{ "message": "Se o e-mail estiver cadastrado, uma mensagem de recuperação será enviada." }
 ```
 
-A resposta é mantida genérica para não informar publicamente se determinado e-mail existe no sistema.
+O e-mail contém um token no formato `<uuid>.<código de 6 dígitos>`, válido por 10 minutos. Solicitar novo token invalida os anteriores.
 
-## 4. Redefinir senha
+Erros: `400` (e-mail inválido), `429` (limite de 3 solicitações por e-mail e 20 por IP por hora), `503` (serviço de e-mail não configurado ou indisponível).
+
+## 5. Redefinir senha
 
 ### POST /auth/reset-password
 
-Atualiza a senha do usuário a partir do token enviado no processo de recuperação.
-
-### Entrada
+Entrada:
 
 ```json
 {
-  "token": "token-de-recuperacao",
-  "password": "novaSenha123",
-  "passwordConfirmation": "novaSenha123"
+  "token": "uuid.123456",
+  "password": "NovaSenha@2026",
+  "passwordConfirmation": "NovaSenha@2026"
 }
 ```
 
-### Saída de sucesso
+Sucesso: `200 OK`
 
-Status: `200 OK`
+```json
+{ "message": "Senha redefinida com sucesso" }
+```
+
+Todas as sessões do usuário são encerradas e o contador de falhas de login é zerado.
+
+Erros:
+
+`400`: token ou corpo em formato inválido.
+
+`401`: token inválido, expirado ou já utilizado; ou código incorreto (`INVALID_RECOVERY_CODE`).
+
+`422`: senha fraca, senhas não coincidem ou nova senha igual à anterior.
+
+`429`: após 3 códigos incorretos o token é bloqueado.
+
+As rotas nativas `/api/auth/request-password-reset` e `/api/auth/reset-password` retornam `404` para impedir o contorno desses limites.
+
+## 6. Listar arenas
+
+### GET /arenas
+
+Público. Filtros opcionais: `cidade` e `q` (nome), ambos por correspondência parcial, sem diferenciar maiúsculas/minúsculas.
+
+```text
+GET /arenas?cidade=Fortaleza&q=Mendes
+```
+
+Sucesso: `200 OK`
 
 ```json
 {
-  "message": "Senha redefinida com sucesso."
+  "data": [
+    {
+      "id": "uuid",
+      "clienteId": "uuid",
+      "nome": "Arena Mendes",
+      "cidade": "Fortaleza",
+      "endereco": "Av. Nazaré, 100",
+      "fotoUrl": null
+    }
+  ]
 }
 ```
 
-### Possíveis erros
+Erro: `400` (parâmetro inválido ou desconhecido).
 
-Status: `400 Bad Request`
+## 7. Listar quadras
+
+### GET /quadras
+
+Público. Filtros opcionais: `arenaId` (UUID) e `disponivel` (`true` ou `false`).
+
+Sucesso: `200 OK`
 
 ```json
 {
-  "error": "As senhas informadas não coincidem."
+  "data": [
+    {
+      "id": "uuid",
+      "arenaId": "uuid",
+      "nome": "Quadra 01",
+      "disponivel": true
+    }
+  ]
 }
 ```
 
-Status: `401 Unauthorized`
+Erro: `400` (`arenaId` ou `disponivel` inválido).
 
-```json
-{
-  "error": "Token de recuperação inválido ou expirado."
-}
-```
-
-## 5. Listar replays
+## 8. Listar replays
 
 ### GET /replays
 
-Retorna os replays disponíveis para consulta.
+Requer autenticação (qualquer perfil). Retorna apenas replays com status `disponivel` e ainda não expirados, ordenados do mais recente para o mais antigo.
 
-A rota pode receber filtros por cidade, quadra, data e horário.
-
-### Exemplo de requisição
+Filtros opcionais: `courtId` (UUID), `city` (parcial), `date` (`AAAA-MM-DD`) e `time` (`HH:MM`).
 
 ```text
-GET /replays?city=Fortaleza&courtId=3&date=2026-09-24
+GET /replays?city=Fortaleza&courtId=<uuid>&date=2026-09-24&time=18:30
 ```
 
-### Saída de sucesso
-
-Status: `200 OK`
+Sucesso: `200 OK`
 
 ```json
 {
-  "replays": [
+  "data": [
     {
-      "id": 42,
-      "court": {
-        "id": 3,
-        "name": "Quadra 01"
-      },
+      "id": "uuid",
+      "courtId": "uuid",
+      "courtName": "Quadra 01",
+      "arenaName": "Arena Mendes",
       "city": "Fortaleza",
-      "recordedAt": "2026-09-24T18:30:00Z",
+      "downloadUrl": "https://.../replay.mp4",
+      "recordingDate": "2026-09-24",
+      "recordingTime": "18:30:00",
+      "status": "disponivel",
       "duration": 30,
+      "sponsors": [{ "id": "uuid", "name": "Empresa Exemplo", "imageUrl": "/uploads/p.png" }],
+      "createdAt": "2026-09-24T18:30:00Z",
       "expiresAt": "2026-10-01T18:30:00Z"
     }
   ]
 }
 ```
 
-## 6. Consultar replay específico
+Erro: `400` (filtro inválido).
+
+## 9. Consultar replay específico
 
 ### GET /replays/{id}
 
-Retorna os dados de um replay específico.
+Requer autenticação. Retorna somente replays `disponivel` e não expirados.
 
-### Entrada
-
-O identificador do replay é enviado pela URL.
-
-```text
-GET /replays/42
-```
-
-### Saída de sucesso
-
-Status: `200 OK`
+Sucesso: `200 OK`
 
 ```json
 {
-  "id": 42,
-  "court": {
-    "id": 3,
-    "name": "Quadra 01"
-  },
-  "city": "Fortaleza",
-  "recordedAt": "2026-09-24T18:30:00Z",
-  "duration": 30,
-  "videoUrl": "/replays/42/stream",
-  "expiresAt": "2026-10-01T18:30:00Z"
+  "data": {
+    "id": "uuid",
+    "court": { "id": "uuid", "name": "Quadra 01" },
+    "city": "Fortaleza",
+    "recordedAt": "2026-09-24T21:30:00.000Z",
+    "duration": 30,
+    "videoUrl": "https://.../replay.mp4",
+    "expiresAt": "2026-10-01T21:30:00.000Z"
+  }
 }
 ```
 
-### Possíveis erros
+Erros: `400` (ID inválido), `401`, `404` (inexistente, expirado, excluído ou ainda pendente).
 
-Status: `404 Not Found`
-
-```json
-{
-  "error": "Replay não encontrado."
-}
-```
-
-## 7. Registrar novo replay
+## 10. Gerar replay
 
 ### POST /replays
 
-Registra um replay após o acionamento do botão da quadra.
+Requer perfil `CLI` ou `ADM`. Somente o gestor dono da quadra pode acionar a geração (a autorização é por propriedade da quadra, inclusive para administradores).
 
-O sistema deve armazenar os últimos 30 segundos gravados e associar o replay à quadra, data e horário da solicitação.
+Entrada:
 
-### Entrada
+```json
+{ "courtId": "uuid" }
+```
+
+Sucesso: `201 Created`
 
 ```json
 {
-  "courtId": 3
+  "data": {
+    "id": "uuid",
+    "courtId": "uuid",
+    "downloadUrl": null,
+    "recordingDate": "2026-09-24",
+    "recordingTime": "18:30:00",
+    "status": "pendente",
+    "duration": 30,
+    "sponsors": [{ "id": "uuid", "name": "Empresa Exemplo", "imageUrl": "/uploads/p.png" }],
+    "createdAt": "2026-09-24T18:30:00Z",
+    "expiresAt": "2026-10-01T18:30:00Z"
+  }
 }
 ```
 
-### Saída de sucesso
+O replay nasce `pendente`, com `duration` fixa de 30 s, `expiresAt` 168 h após a criação e um snapshot dos patrocinadores da quadra. Ele passa a `disponivel` (com `downloadUrl`) quando o processamento da mídia é concluído.
 
-Status: `201 Created`
+Status possíveis: `pendente`, `disponivel`, `excluido`.
 
-```json
-{
-  "id": 42,
-  "courtId": 3,
-  "recordedAt": "2026-09-24T18:30:00Z",
-  "duration": 30,
-  "status": "AVAILABLE",
-  "expiresAt": "2026-10-01T18:30:00Z"
-}
-```
+Erros: `400` (`courtId` inválido ou campos extras, como `duration`), `401`, `403` (quadra de outro gestor), `404` (quadra não encontrada), `409` (menos de 30 s desde o último replay da quadra; acionamentos simultâneos são serializados), `422` (quadra indisponível).
 
-### Possíveis erros
-
-Status: `404 Not Found`
-
-```json
-{
-  "error": "Quadra não encontrada."
-}
-```
-
-Status: `500 Internal Server Error`
-
-```json
-{
-  "error": "Não foi possível armazenar o replay.",
-  "status": "PENDING"
-}
-```
-
-## 8. Baixar replay
+## 11. Baixar replay
 
 ### GET /replays/{id}/download
 
-Realiza o download do vídeo correspondente ao replay em formato MP4.
+Requer autenticação. Registra um evento de download usado nas métricas.
 
-### Entrada
-
-O identificador do replay é enviado pela URL.
-
-```text
-GET /replays/42/download
-```
-
-### Saída de sucesso
-
-Status: `200 OK`
+Sucesso: `200 OK`
 
 ```json
 {
-  "fileName": "replay-42.mp4",
-  "format": "MP4",
-  "downloadUrl": "/files/replay-42.mp4"
+  "data": {
+    "id": "uuid",
+    "downloadUrl": "https://.../replay.mp4",
+    "fileName": "replay-<id>.mp4",
+    "format": "MP4"
+  }
 }
 ```
 
-Na implementação final, a rota também poderá retornar diretamente o arquivo de vídeo em vez de uma resposta JSON.
+Erros: `400` (ID inválido), `401`, `404` (inexistente, excluído ou expirado), `422` (replay ainda pendente).
 
-### Possíveis erros
-
-Status: `404 Not Found`
-
-```json
-{
-  "error": "Vídeo não encontrado ou não está mais disponível."
-}
-```
-
-## 9. Excluir replay
+## 12. Excluir replay
 
 ### DELETE /replays/{id}
 
-Exclui manualmente um replay.
+Requer perfil `CLI` ou `ADM`. Permitido ao gestor dono da quadra ou a qualquer administrador.
 
-Essa operação deve ser permitida apenas para o gestor responsável pela quadra ou para um administrador.
-
-### Entrada
-
-O identificador do replay é enviado pela URL.
-
-```text
-DELETE /replays/42
-```
-
-### Saída de sucesso
-
-Status: `200 OK`
+Entrada:
 
 ```json
-{
-  "message": "Replay excluído com sucesso."
-}
+{ "reason": "Solicitação do proprietário" }
 ```
 
-### Possíveis erros
+`reason`: 3 a 500 caracteres.
 
-Status: `403 Forbidden`
+Sucesso: `200 OK`
 
 ```json
-{
-  "error": "Usuário sem permissão para excluir este replay."
-}
+{ "message": "Replay excluído com sucesso" }
 ```
 
-Status: `404 Not Found`
+A exclusão é lógica: o status passa a `excluido`, `arquivo_url` é zerado, a mídia entra na fila de exclusão do storage e a ação é registrada em auditoria (usuário e motivo), tudo na mesma transação.
 
-```json
-{
-  "error": "Replay não encontrado."
-}
-```
+Erros: `400` (ID ou motivo inválido), `401`, `403` (sem permissão), `404` (inexistente, já excluído ou expirado).
 
-## 10. Cadastrar patrocinador
+## 13. Cadastrar patrocinador
 
 ### POST /sponsors
 
-Cadastra um novo patrocinador e permite associá-lo a uma ou mais quadras do gestor.
+Requer perfil `CLI` ou `ADM` e vínculo com gestor de arena. Só é possível vincular o patrocinador às quadras do próprio gestor.
 
-### Entrada
+Entrada:
 
 ```json
 {
@@ -437,56 +424,34 @@ Cadastra um novo patrocinador e permite associá-lo a uma ou mais quadras do ges
   "imageUrl": "/uploads/patrocinador.png",
   "duration": 10,
   "value": 500.0,
-  "courtIds": [3, 4]
+  "courtIds": ["uuid", "uuid"]
 }
 ```
 
-### Saída de sucesso
+`name`: 2 a 150 caracteres. `imageUrl`: URL http(s) ou caminho `/uploads/...`. `duration`: inteiro de 1 a 30. `value`: não negativo, até 2 casas decimais. `courtIds`: 1 a 100 UUIDs, sem repetição.
 
-Status: `201 Created`
+Sucesso: `201 Created`
 
 ```json
 {
-  "id": 8,
+  "id": "uuid",
   "name": "Empresa Exemplo",
   "imageUrl": "/uploads/patrocinador.png",
   "duration": 10,
   "value": 500.0,
-  "courtIds": [3, 4]
+  "courtIds": ["uuid", "uuid"]
 }
 ```
 
-### Possíveis erros
+Erros: `400` (dados inválidos), `401`, `403` (usuário não é gestor ou quadra de outro gestor), `404` (quadra não encontrada), `409` (patrocinador com o mesmo nome já cadastrado para o gestor, sem diferenciar maiúsculas/minúsculas).
 
-Status: `409 Conflict`
-
-```json
-{
-  "error": "Patrocinador já cadastrado."
-}
-```
-
-Status: `400 Bad Request`
-
-```json
-{
-  "error": "Não foi possível adicionar novos patrocinadores às quadras selecionadas."
-}
-```
-
-## 11. Consultar métricas do administrador
+## 14. Métricas do administrador
 
 ### GET /admin/metrics
 
-Retorna dados gerais para o dashboard do administrador.
+Requer perfil `ADM`.
 
-### Entrada
-
-Não possui payload.
-
-### Saída de sucesso
-
-Status: `200 OK`
+Sucesso: `200 OK`
 
 ```json
 {
@@ -494,70 +459,47 @@ Status: `200 OK`
   "totalCourts": 18,
   "totalReplays": 842,
   "mostAccessedCourts": [
-    {
-      "courtId": 3,
-      "name": "Quadra 01",
-      "accesses": 320
-    },
-    {
-      "courtId": 5,
-      "name": "Arena Central",
-      "accesses": 275
-    }
+    { "courtId": "uuid", "name": "Quadra 01", "accesses": 320 }
   ]
 }
 ```
 
-## 12. Consultar métricas do gestor
+`activeUsers`: usuários com sessão válida. `totalReplays`: replays não excluídos e não expirados. `mostAccessedCourts`: até 5 quadras, ordenadas por downloads.
+
+Erros: `401`, `403`.
+
+## 15. Métricas do gestor
 
 ### GET /manager/metrics
 
-Retorna métricas relacionadas às quadras do gestor autenticado.
+Requer perfil `CLI` ou `ADM` e vínculo com gestor de arena.
 
-### Entrada
-
-Não possui payload.
-
-### Saída de sucesso
-
-Status: `200 OK`
+Sucesso: `200 OK`
 
 ```json
 {
   "totalReplays": 186,
   "totalSponsors": 5,
   "peakHours": [
-    {
-      "hour": "19:00",
-      "accesses": 72
-    },
-    {
-      "hour": "20:00",
-      "accesses": 61
-    }
+    { "hour": "19:00", "accesses": 72 }
   ],
   "courts": [
-    {
-      "id": 3,
-      "name": "Quadra 01",
-      "replays": 120
-    },
-    {
-      "id": 4,
-      "name": "Quadra 02",
-      "replays": 66
-    }
+    { "id": "uuid", "name": "Quadra 01", "replays": 120 }
   ]
 }
 ```
 
-## 13. Solicitar cadastro como gestor de quadra
+`peakHours`: até 5 horários com mais downloads (fuso America/Fortaleza).
+
+Erros: `401`, `403`.
+
+## 16. Solicitar cadastro como gestor
 
 ### POST /manager-requests
 
-Permite que um usuário cadastrado solicite a alteração de seu perfil para gestor de quadra.
+Requer autenticação.
 
-### Entrada
+Entrada:
 
 ```json
 {
@@ -575,89 +517,53 @@ Permite que um usuário cadastrado solicite a alteração de seu perfil para ges
 }
 ```
 
-### Saída de sucesso
+`cpf`: 11 dígitos. `cnpj`: opcional, 14 dígitos. `courtQuantity`: inteiro de 1 a 1000. `zipCode`: 8 dígitos. `state`: sigla de 2 letras. Campos extras são rejeitados. A validação é de formato, sem verificação de dígitos.
 
-Status: `201 Created`
+Sucesso: `201 Created`
 
 ```json
 {
   "id": 15,
-  "userId": 1,
+  "userId": "uuid",
   "status": "PENDING",
   "message": "Solicitação enviada. Aguarde a análise dos administradores."
 }
 ```
 
-### Possíveis erros
+Erros: `400` (dados inválidos), `401`, `409` (usuário ou documento já vinculado a um gestor, ou solicitação pendente existente).
 
-Status: `400 Bad Request`
-
-```json
-{
-  "error": "CPF ou CNPJ inválido."
-}
-```
-
-Status: `409 Conflict`
-
-```json
-{
-  "error": "Já existe uma solicitação pendente para este usuário."
-}
-```
-
-## 14. Analisar solicitação de gestor
+## 17. Analisar solicitação de gestor
 
 ### PATCH /manager-requests/{id}
 
-Permite que um administrador aprove ou reprove uma solicitação de cadastro como gestor de quadra.
+Requer perfil `ADM`.
 
-### Entrada
-
-```json
-{
-  "status": "APPROVED"
-}
-```
-
-Também pode ser enviado:
+Entrada:
 
 ```json
-{
-  "status": "REJECTED"
-}
+{ "status": "APPROVED" }
 ```
 
-### Saída de sucesso
+Valores aceitos: `APPROVED` ou `REJECTED`.
 
-Status: `200 OK`
+Sucesso: `200 OK`
 
 ```json
 {
   "id": 15,
-  "userId": 1,
+  "userId": "uuid",
   "status": "APPROVED",
-  "message": "Solicitação atualizada com sucesso."
+  "message": "Solicitação aprovada com sucesso."
 }
 ```
 
-### Possíveis erros
+Na rejeição, a mensagem é `Solicitação rejeitada com sucesso.` A aprovação cria o registro de gestor de arena e promove o perfil do usuário a `CLI`.
 
-Status: `403 Forbidden`
+Erros: `400` (ID ou status inválido), `401`, `403` (não é administrador), `404` (solicitação não encontrada), `409` (solicitação já analisada).
 
-```json
-{
-  "error": "Apenas administradores podem analisar solicitações."
-}
-```
+## Rotas nativas do Better Auth
 
-Status: `404 Not Found`
-
-```json
-{
-  "error": "Solicitação não encontrada."
-}
-```
+Expostas em `/api/auth/*` e usadas pelo frontend: `POST /api/auth/sign-in/email`, `POST /api/auth/sign-up/email` (mesmas validações e limites de `/auth/register` e `/auth/login`), `POST /api/auth/sign-out` e `GET /api/auth/get-session`. A alteração de telefone via `update-user` retorna `400`.
 
 ## Códigos HTTP utilizados
 
@@ -665,20 +571,20 @@ Status: `404 Not Found`
 |---|---|
 | 200 | Requisição realizada com sucesso |
 | 201 | Recurso criado com sucesso |
-| 400 | Dados inválidos ou campos obrigatórios ausentes |
-| 401 | Usuário não autenticado ou credenciais inválidas |
-| 403 | Usuário autenticado, mas sem permissão |
-| 404 | Recurso não encontrado |
-| 409 | Conflito com um recurso já existente |
-| 429 | Limite de tentativas excedido |
+| 400 | Dados inválidos, JSON malformado ou campos obrigatórios ausentes |
+| 401 | Não autenticado, sessão expirada ou token inválido |
+| 403 | Autenticado, mas sem permissão |
+| 404 | Recurso não encontrado (inclui expirado ou excluído) |
+| 409 | Conflito (duplicidade ou intervalo mínimo entre replays) |
+| 422 | Regra de negócio violada (senha, quadra indisponível, replay pendente) |
+| 429 | Limite de tentativas ou solicitações excedido |
 | 500 | Erro interno do servidor |
+| 503 | Serviço dependente não configurado (e-mail) |
 
 ## Observações
 
-Os vídeos devem permanecer disponíveis por até 7 dias. Após esse período, o sistema deverá realizar a exclusão automática.
+Os replays permanecem disponíveis por 7 dias (168 h). Após esse prazo, a rotina de retenção marca o replay como `excluido`, zera a URL e enfileira a exclusão do arquivo no storage, com novas tentativas em caso de falha.
 
-Cada replay deve possuir vínculo com a quadra em que foi gerado e registrar data e horário da gravação.
+Cada replay é vinculado à quadra de origem e registra data e horário da geração.
 
-O login deve respeitar o limite máximo de tentativas definido nos requisitos do sistema.
-
-Os nomes das rotas, campos, tipos de identificadores e mecanismo de autenticação podem ser ajustados posteriormente de acordo com as tecnologias escolhidas pela equipe, desde que o comportamento definido neste contrato seja mantido.
+Rotas auxiliares fora do contrato de negócio: `GET /health` e `GET /api/health`.
