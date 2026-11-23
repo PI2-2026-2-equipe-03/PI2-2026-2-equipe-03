@@ -28,7 +28,6 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 | Campo | Detalhes |
 | :--- | :--- |
 | **Identificador** | CT-001 |
-| **Versão** | 1.0 |
 | **Suíte de Teste** | ST-01 Autenticação e Gestão de Contas |
 | **Autor** | Rick |
 | **Requisito Coberto** | RF-01 (Cadastro de usuário) |
@@ -48,7 +47,7 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 #### Registro de Execução
 | Build | Testador | Data | Status | Defeito | Observações |
 | :---: | :--- | :---: | :---: | :---: | :--- |
-| 1.0 | Rick | 06/10/2026 | **Aprovado** | — | Cadastro e login subsequente executados sem falhas. |
+| 1.0 | Rick | 06/10/2026 | **Aprovado** | - | Cadastro e login subsequente executados sem falhas. |
 
 ---
 
@@ -57,7 +56,6 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 | Campo | Detalhes |
 | :--- | :--- |
 | **Identificador** | CT-002 |
-| **Versão** | 1.0 |
 | **Suíte de Teste** | ST-01 Autenticação e Gestão de Contas |
 | **Autor** | Rick |
 | **Requisito Coberto** | RF-01 (Cadastro de usuário) |
@@ -76,7 +74,7 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 #### Registro de Execução
 | Build | Testador | Data | Status | Defeito | Observações |
 | :---: | :--- | :---: | :---: | :---: | :--- |
-| 1.0 | Rick | 06/10/2026 | **Aprovado** | — | Validação de unicidade de e-mail operando conforme o esperado. |
+| 1.0 | Rick | 06/10/2026 | **Aprovado** | - | Validação de unicidade de e-mail operando conforme o esperado. |
 
 ---
 
@@ -85,7 +83,6 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 | Campo | Detalhes |
 | :--- | :--- |
 | **Identificador** | CT-003 |
-| **Versão** | 1.0 |
 | **Suíte de Teste** | ST-01 Autenticação e Gestão de Contas |
 | **Autor** | Rick |
 | **Requisito Coberto** | RF-02 (Login de usuário) |
@@ -104,7 +101,7 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 #### Registro de Execução
 | Build | Testador | Data | Status | Defeito | Observações |
 | :---: | :--- | :---: | :---: | :---: | :--- |
-| 1.0 | Rick | 06/10/2026 | **Aprovado** | — | Sessão iniciada com sucesso. |
+| 1.0 | Rick | 06/10/2026 | **Aprovado** | - | Sessão iniciada com sucesso. |
 
 ---
 
@@ -113,7 +110,6 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 | Campo | Detalhes |
 | :--- | :--- |
 | **Identificador** | CT-004 |
-| **Versão** | 1.0 |
 | **Suíte de Teste** | ST-01 Autenticação e Gestão de Contas |
 | **Autor** | Rick |
 | **Requisito Coberto** | RNF-04 (Segurança em Acesso) |
@@ -132,7 +128,7 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 #### Registro de Execução
 | Build | Testador | Data | Status | Defeito | Observações |
 | :---: | :--- | :---: | :---: | :---: | :--- |
-| 1.0 | Rick | 06/10/2026 | **Reprovado** | CT-004-E1 | Falhou no passo 3: O sistema aceitou a senha correta na 6ª tentativa sem aplicar o bloqueio temporal exigido no RNF-04. Evidência registrada em `CT-004-E1`. |
+| 1.0 | Rick | 08/11/2026 | **Aprovado**| - | Usuário bloqueado temporariamente de novas tentativas de login após uma quantidade de erros. |
 
 ---
 
@@ -141,7 +137,6 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 | Campo | Detalhes |
 | :--- | :--- |
 | **Identificador** | CT-005 |
-| **Versão** | 1.0 |
 | **Suíte de Teste** | ST-02 Captura e Associação de Replays |
 | **Autor** | Rick |
 | **Requisito Coberto** | RF-05 (Gravar Vídeo) e RF-09 (Associar informações ao replay) |
@@ -160,7 +155,7 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 #### Registro de Execução
 | Build | Testador | Data | Status | Defeito | Observações |
 | :---: | :--- | :---: | :---: | :---: | :--- |
-| 1.0 | Rick | 06/10/2026 | **Bloqueado** | — | Teste depende de instalação física ainda pendente |
+| 1.0 | Rick | 06/10/2026 | **Bloqueado** | - | Teste depende de instalação física ainda pendente |
 
 ---
 
@@ -168,8 +163,7 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 
 | Campo | Detalhes |
 | :--- | :--- |
-| **Identificador** | CT-007 |
-| **Versão** | 1.0 |
+| **Identificador** | CT-006 |
 | **Suíte de Teste** | ST-04 Gestão de Patrocinadores e Exclusão |
 | **Autor** | Rick |
 | **Requisito Coberto** | RF-08 (Tempo de disponibilidade dos vídeos) |
@@ -188,7 +182,7 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 #### Registro de Execução
 | Build | Testador | Data | Status | Defeito | Observações |
 | :---: | :--- | :---: | :---: | :---: | :--- |
-| 1.0 | Rick | 06/10/2026 | **Bloqueado** | — | Armazenamento de vídeos ainda pendente de ser implementado no sistema |
+| 1.0 | Rick | 08/11/2026 | Aprovado | - | Exclusão automática testada nos testes automatizados e aprovada. |
 
 ---
 
@@ -197,7 +191,6 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 | Campo | Detalhes |
 | :--- | :--- |
 | **Identificador** | CT-008 |
-| **Versão** | 1.0 |
 | **Suíte de Teste** | ST-04 Gestão de Patrocinadores e Exclusão |
 | **Autor** | Rick |
 | **Requisito Coberto** | RF-07 (Cadastrar patrocinadores) |
@@ -216,7 +209,7 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 #### Registro de Execução
 | Build | Testador | Data | Status | Defeito | Observações |
 | :---: | :--- | :---: | :---: | :---: | :--- |
-| 1.0 | Rick | 06/10/2026 | **Bloqueado** | — | Impossibilitado de testar pois telas ainda a serem implementadas |
+| 1.0 | Rick | 08/11/2026 | **Bloqueado** | - | Impossibilitado de testar, pois tendo problemas com credenciais de gestor e admin |
 
 ---
 
@@ -225,7 +218,6 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 | Campo | Detalhes |
 | :--- | :--- |
 | **Identificador** | CT-009 |
-| **Versão** | 1.0 |
 | **Suíte de Teste** | ST-05 Dashboards e Métricas |
 | **Autor** | Rick |
 | **Requisito Coberto** | RF-03 e RF-04 (Métricas para Admin e Cliente) |
@@ -252,7 +244,6 @@ Agrupamento de casos de teste por funcionalidade e conjunto de requisitos associ
 | Campo | Detalhes |
 | :--- | :--- |
 | **Identificador** | CT-010 |
-| **Versão** | 1.0 |
 | **Suíte de Teste** | ST-06 Usabilidade, Interface e Desempenho |
 | **Autor** | Rick |
 | **Requisito Coberto** | RNF-01 (Tema escuro e Tema claro) |

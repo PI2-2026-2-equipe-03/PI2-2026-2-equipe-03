@@ -1,0 +1,62 @@
+{
+  "saque": {
+    "nome": "Saque",
+    "descricao": "bola de vôlei tricolor com faixa na testa",
+    "fundo": "#FF9F43"
+  },
+  "sol": {
+    "nome": "Sol",
+    "descricao": "sol de praia de óculos escuros",
+    "fundo": "#7FC8F8"
+  },
+  "rec": {
+    "nome": "Rec",
+    "descricao": "câmera da quadra gravando",
+    "fundo": "#F2C111"
+  },
+  "botao": {
+    "nome": "Botão",
+    "descricao": "o botão da quadra, recém-apertado",
+    "fundo": "#EAF1FB"
+  },
+  "apito": {
+    "nome": "Apito",
+    "descricao": "apito do juiz, de bochecha cheia",
+    "fundo": "#F28C6B"
+  },
+  "claquete": {
+    "nome": "Claquete",
+    "descricao": "claquete do replay entrando em cena",
+    "fundo": "#C9D6F5"
+  },
+  "ampulheta": {
+    "nome": "Ampulheta",
+    "descricao": "os 30 segundos de cada replay",
+    "fundo": "#0B2A75"
+  },
+  "taca": {
+    "nome": "Taça",
+    "descricao": "taça de campeão",
+    "fundo": "#103A9E"
+  },
+  "tenis": {
+    "nome": "Tênis",
+    "descricao": "tênis de quadra pronto pra pular",
+    "fundo": "#2BB673"
+  },
+  "coco": {
+    "nome": "Coco",
+    "descricao": "coco verde no intervalo da praia",
+    "fundo": "#F6DB8B"
+  },
+  "placar": {
+    "nome": "Placar",
+    "descricao": "placar marcando o ponto",
+    "fundo": "#3D6FD8"
+  },
+  "pipoca": {
+    "nome": "Pipoca",
+    "descricao": "pipoca para assistir o replay",
+    "fundo": "#F2545B"
+  }
+}

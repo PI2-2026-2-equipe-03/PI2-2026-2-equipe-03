@@ -1,0 +1,20 @@
+boas-vindas	Boas-vindas	primeiro acesso, home sem histórico, fim do cadastro
+sem-replays	Nenhum replay ainda	galeria de replays vazia (convida a apertar o botão na quadra)
+busca-vazia	Busca sem resultado	busca e filtros que não encontraram nada
+sem-quadras	Nenhuma quadra	listagem de quadras vazia ou filtro sem quadras
+sem-arenas	Nenhuma arena	listagem de arenas vazia ou cidade sem arenas
+sem-conexao	Sem conexão	falha de rede ou API fora do ar (QueryErrorState)
+bola-na-rede	Algo deu errado	erro genérico (exceção inesperada, ação que falhou)
+erro-servidor	Servidor fora do ar	erro 5xx, serviço indisponível
+nao-encontrado	Página não encontrada	rota inexistente (404) e replay/arena/quadra que não existe mais
+video-indisponivel	Vídeo indisponível	player sem arquivo, vídeo que falhou ao carregar
+replay-expirado	Replay expirado	replay cujo prazo acabou (ReplayExpiry = expirado)
+acesso-negado	Acesso não permitido	rota/ação sem permissão (RequireRole, ForbiddenDialog)
+sem-patrocinadores	Nenhum patrocinador	lista de patrocinadores vazia (espaço disponível)
+email-enviado	E-mail enviado	recuperação de senha enviada, confirmação de cadastro
+link-expirado	Link expirado	link de redefinição de senha expirado ou inválido
+sucesso	Tudo certo	ação concluída: solicitação enviada, senha alterada, dados salvos
+sessao-expirada	Sessão expirada	sessão que expirou, pedido para entrar de novo
+manutencao	Em manutenção	sistema em manutenção ou recurso temporariamente desligado
+camera-offline	Câmera offline	câmera da quadra sem sinal (painel do gestor/admin)
+notificacao	Notificação	central de avisos, alerta importante, novidade

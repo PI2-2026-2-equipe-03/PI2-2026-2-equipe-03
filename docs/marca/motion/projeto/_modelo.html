@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=__W__, height=__H__" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="studio.js"></script>
+<script src="marca.js"></script>
+<style>
+  :root { --blue:#103A9E; --blue-dk:#0B2A75; --blue-deep:#081F57; --yel:#F2C111; --yel-dk:#E0AD00; --ice:#EAF1FB; --lilac:#C9D6F5; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:__W__px; height:__H__px; overflow:hidden; background:var(--blue); }
+  #root { position:relative; width:__W__px; height:__H__px; overflow:hidden; background:var(--blue);
+    font-family:'Bricolage Grotesque', sans-serif; color:#fff; font-optical-sizing:auto; }
+  .scene, .layer { position:absolute; inset:0; }
+  .sand { position:absolute; inset:0; z-index:5; pointer-events:none; }
+  .hl { position:absolute; font-weight:800; letter-spacing:-0.025em; line-height:1.02; }
+  .hl .w { display:inline-block; overflow:hidden; vertical-align:top; padding-bottom:.16em; margin-bottom:-.16em; }
+  .hl .wi { display:inline-block; will-change:transform; }
+  .sub { position:absolute; font-weight:500; color:var(--lilac); line-height:1.3; }
+  .sub .sl { overflow:hidden; } .sub .sl span { display:inline-block; }
+  .chips { position:absolute; display:flex; gap:28px; align-items:flex-start; }
+  .chip { position:relative; display:inline-flex; align-items:center; gap:.45em; padding:.38em .8em .42em .42em; border-radius:999px;
+    border:3px solid rgba(201,214,245,.55); background:rgba(255,255,255,.06); font-weight:700; white-space:nowrap; }
+  .chip b { display:inline-grid; place-items:center; width:1.35em; height:1.35em; border-radius:50%; background:var(--yel); color:var(--blue-deep); font-size:.8em; }
+  .chip i { position:absolute; left:.3em; right:.3em; top:52%; height:6px; border-radius:3px; background:var(--yel); transform-origin:left center; transform:scaleX(0); }
+  .qmark { position:absolute; font-weight:800; line-height:1; color:transparent; -webkit-text-stroke:10px rgba(242,193,17,.9); }
+  .clique { position:absolute; font-weight:800; color:var(--yel); transform-origin:left bottom; }
+  .phone { position:absolute; border-radius:64px; background:var(--ice); border:16px solid var(--blue-deep); padding:42px 26px; color:var(--blue); }
+  .ph-title { font-weight:800; font-size:40px; letter-spacing:-.02em; }
+  .ph-sub { font-weight:500; font-size:22px; color:#6B7A9C; margin:4px 0 26px; }
+  .card { display:flex; align-items:center; gap:16px; background:#fff; border-radius:24px; padding:14px; margin-bottom:16px; }
+  .thumb { position:relative; width:108px; height:76px; border-radius:14px; overflow:hidden; background:#2E56C4; flex:none; }
+  .thumb s { position:absolute; left:0; right:0; bottom:0; height:34%; background:var(--yel); }
+  .thumb u { position:absolute; left:44px; top:22px; border-left:22px solid #fff; border-top:13px solid transparent; border-bottom:13px solid transparent; }
+  .meta { flex:1; display:flex; flex-direction:column; } .meta b { font-size:34px; font-weight:800; letter-spacing:-.02em; } .meta span { font-size:20px; color:#6B7A9C; font-weight:500; }
+  .dl { width:60px; height:60px; border-radius:50%; background:var(--blue); display:grid; place-items:center; flex:none; }
+  .dl svg { width:52px; height:52px; overflow:visible; }
+  .dl .ring { fill:none; stroke:var(--yel); stroke-width:5; transform:rotate(-90deg); transform-origin:26px 26px; }
+  .dl .arr { fill:none; stroke:#fff; stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }
+  .dl .chk { fill:none; stroke:var(--blue-deep); stroke-width:6; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:40; opacity:0; }
+  .flash { position:absolute; inset:0; z-index:9; background:#fff; opacity:0; pointer-events:none; }
+  .saved, .toast { position:absolute; display:inline-flex; align-items:center; gap:.4em; padding:.32em .8em .36em .36em; border-radius:999px; background:var(--yel); color:var(--blue-deep); font-weight:800; opacity:0; transform-origin:left center; }
+  .saved b, .toast b { display:inline-grid; place-items:center; width:1.3em; height:1.3em; border-radius:50%; background:var(--blue-deep); color:var(--yel); font-size:.8em; }
+  .toast { font-size:34px; }
+  .ul { position:absolute; height:.12em; border-radius:.06em; background:var(--yel); }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-mode="__MODE__" data-start="0" data-duration="__D__" data-width="__W__" data-height="__H__"></div>
+<script src="cena.js"></script>
+</body>
+</html>
