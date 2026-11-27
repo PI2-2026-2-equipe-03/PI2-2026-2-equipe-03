@@ -12,8 +12,12 @@ Contrato do backend do TaGravado, alinhado à implementação atual (Fastify + B
 | GET | `/admin/metrics` | RF-03 | ADM | Métricas do administrador |
 | GET | `/manager/metrics` | RF-04 | CLI/ADM (gestor) | Métricas do gestor |
 | POST | `/replays` | RF-05 / RF-09 | CLI/ADM (dono da quadra) | Gera replay e associa quadra, data e horário |
-| GET | `/arenas` | RF-06 | Público | Busca de arenas por cidade/nome |
-| GET | `/quadras` | RF-06 | Público | Lista de quadras |
+| GET | `/arenas`, `/arenas/{id}` | RF-06 | Público | Busca e consulta de arenas |
+| GET | `/courts`, `/courts/{id}` | RF-06 | Público | Lista e consulta de quadras |
+| POST/PATCH/DELETE | `/arenas`, `/arenas/{id}` | Gerenciamento | CLI/ADM | Cadastro, edição e exclusão de arenas |
+| POST/PATCH/DELETE | `/courts`, `/courts/{id}` | Gerenciamento | CLI/ADM | Cadastro, edição e exclusão de quadras |
+| GET/POST/PATCH/DELETE | `/cameras`, `/cameras/{id}` | Gerenciamento | CLI/ADM | CRUD de câmeras |
+| GET/PATCH/DELETE | `/sponsors`, `/sponsors/{id}` | RF-07 | CLI/ADM | Consulta, edição e exclusão de patrocinadores |
 | GET | `/replays` | RF-06 | Autenticado | Lista de replays disponíveis |
 | GET | `/replays/{id}` | RF-06 | Autenticado | Detalhes do replay |
 | GET | `/replays/{id}/download` | RF-06 | Autenticado | Link de download MP4 |
@@ -214,7 +218,7 @@ Erros:
 
 As rotas nativas `/api/auth/request-password-reset` e `/api/auth/reset-password` retornam `404` para impedir o contorno desses limites.
 
-## 6. Listar arenas
+## 6. Arenas
 
 ### GET /arenas
 
@@ -243,9 +247,39 @@ Sucesso: `200 OK`
 
 Erro: `400` (parâmetro inválido ou desconhecido).
 
-## 7. Listar quadras
+### GET /arenas/{id}
 
-### GET /quadras
+Público. Sucesso: `200 OK` com `{ "data": { ...arena } }`. Erros: `400` (ID inválido), `404`.
+
+### POST /arenas
+
+Requer `CLI` ou `ADM`.
+
+```json
+{
+  "nome": "Arena Mendes",
+  "cidade": "Fortaleza",
+  "endereco": "Av. Nazaré, 100",
+  "fotoUrl": null,
+  "clienteId": "uuid"
+}
+```
+
+`nome` 2 a 150, `cidade` 2 a 100, `endereco` 2 a 255 caracteres; `fotoUrl` opcional (até 500). `CLI` cria a arena para si (informar outro `clienteId` retorna `403`); `ADM` deve informar `clienteId` de um gestor existente.
+
+Sucesso: `201 Created` com `{ "data": { ...arena } }`. Erros: `400`, `401`, `403`, `404` (gestor não encontrado), `409`.
+
+### PATCH /arenas/{id}
+
+Requer `CLI` (dono da arena) ou `ADM`. Corpo com ao menos um de `nome`, `cidade`, `endereco`, `fotoUrl`. Sucesso: `200 OK` com `{ "data": { ...arena } }`. Erros: `400`, `401`, `403`, `404`.
+
+### DELETE /arenas/{id}
+
+Requer `CLI` (dono) ou `ADM`. Sucesso: `200 OK` com `{ "message": "Arena excluída com sucesso" }`. Erros: `403`, `404`, `409` (arena possui quadras; exclua-as antes).
+
+## 7. Quadras
+
+### GET /courts
 
 Público. Filtros opcionais: `arenaId` (UUID) e `disponivel` (`true` ou `false`).
 
@@ -254,19 +288,66 @@ Sucesso: `200 OK`
 ```json
 {
   "data": [
-    {
-      "id": "uuid",
-      "arenaId": "uuid",
-      "nome": "Quadra 01",
-      "disponivel": true
-    }
+    { "id": "uuid", "arenaId": "uuid", "nome": "Quadra 01", "disponivel": true }
   ]
 }
 ```
 
-Erro: `400` (`arenaId` ou `disponivel` inválido).
+Erro: `400` (filtro inválido).
 
-## 8. Listar replays
+### GET /courts/{id}
+
+Público. Sucesso: `200 OK` com `{ "data": { ...quadra } }`. Erros: `400`, `404`.
+
+### POST /courts
+
+Requer `CLI` (dono da arena) ou `ADM`.
+
+```json
+{ "arenaId": "uuid", "nome": "Quadra 01" }
+```
+
+`nome`: 1 a 100 caracteres. Sucesso: `201 Created` com `{ "data": { ...quadra } }`. Erros: `400`, `401`, `403`, `404` (arena não encontrada), `409` (nome já existe na arena).
+
+### PATCH /courts/{id}
+
+Requer `CLI` (dono) ou `ADM`. Corpo com ao menos um de `nome` ou `disponivel`. Sucesso: `200 OK` com `{ "data": { ...quadra } }`. Erros: `400`, `401`, `403`, `404`, `409` (nome duplicado).
+
+### DELETE /courts/{id}
+
+Requer `CLI` (dono) ou `ADM`. Sucesso: `200 OK` com `{ "message": "Quadra excluída com sucesso" }`. Erros: `403`, `404`, `409` (quadra possui replays; marque `disponivel: false` em vez de excluir).
+
+## 8. Câmeras
+
+Todas as rotas exigem `CLI` (dono da quadra) ou `ADM`. Status possíveis: `ativa`, `inativa`, `manutencao`.
+
+Objeto: `{ "id": "uuid", "quadraId": "uuid", "identificador": "CAM-01", "status": "ativa" }`
+
+### GET /cameras
+
+Filtros opcionais: `quadraId` e `status`. Gestores veem apenas câmeras das próprias quadras; administradores veem todas. Sucesso: `200 OK` com `{ "data": [ ...câmeras ] }`.
+
+### GET /cameras/{id}
+
+Sucesso: `200 OK` com `{ "data": { ...câmera } }`. Erros: `400`, `401`, `403`, `404`.
+
+### POST /cameras
+
+```json
+{ "quadraId": "uuid", "identificador": "CAM-01", "status": "ativa" }
+```
+
+`identificador`: 1 a 100 caracteres, único por quadra. `status` é opcional (padrão `ativa`). Sucesso: `201 Created` com `{ "data": { ...câmera } }`. Erros: `400`, `401`, `403`, `404` (quadra não encontrada), `409`.
+
+### PATCH /cameras/{id}
+
+Corpo com ao menos um de `identificador` ou `status`. Sucesso: `200 OK` com `{ "data": { ...câmera } }`. Erros: `400`, `401`, `403`, `404`, `409`.
+
+### DELETE /cameras/{id}
+
+Sucesso: `200 OK` com `{ "message": "Câmera excluída com sucesso" }`. Erros: `401`, `403`, `404`.
+
+## 9. Listar replays
 
 ### GET /replays
 
@@ -304,7 +385,7 @@ Sucesso: `200 OK`
 
 Erro: `400` (filtro inválido).
 
-## 9. Consultar replay específico
+## 10. Consultar replay específico
 
 ### GET /replays/{id}
 
@@ -328,7 +409,7 @@ Sucesso: `200 OK`
 
 Erros: `400` (ID inválido), `401`, `404` (inexistente, expirado, excluído ou ainda pendente).
 
-## 10. Gerar replay
+## 11. Gerar replay
 
 ### POST /replays
 
@@ -365,7 +446,7 @@ Status possíveis: `pendente`, `disponivel`, `excluido`.
 
 Erros: `400` (`courtId` inválido ou campos extras, como `duration`), `401`, `403` (quadra de outro gestor), `404` (quadra não encontrada), `409` (menos de 30 s desde o último replay da quadra; acionamentos simultâneos são serializados), `422` (quadra indisponível).
 
-## 11. Baixar replay
+## 12. Baixar replay
 
 ### GET /replays/{id}/download
 
@@ -386,7 +467,7 @@ Sucesso: `200 OK`
 
 Erros: `400` (ID inválido), `401`, `404` (inexistente, excluído ou expirado), `422` (replay ainda pendente).
 
-## 12. Excluir replay
+## 13. Excluir replay
 
 ### DELETE /replays/{id}
 
@@ -410,7 +491,7 @@ A exclusão é lógica: o status passa a `excluido`, `arquivo_url` é zerado, a 
 
 Erros: `400` (ID ou motivo inválido), `401`, `403` (sem permissão), `404` (inexistente, já excluído ou expirado).
 
-## 13. Cadastrar patrocinador
+## 14. Patrocinadores
 
 ### POST /sponsors
 
@@ -445,7 +526,23 @@ Sucesso: `201 Created`
 
 Erros: `400` (dados inválidos), `401`, `403` (usuário não é gestor ou quadra de outro gestor), `404` (quadra não encontrada), `409` (patrocinador com o mesmo nome já cadastrado para o gestor, sem diferenciar maiúsculas/minúsculas).
 
-## 14. Métricas do administrador
+### GET /sponsors
+
+Requer `CLI` ou `ADM`. Gestores veem os próprios patrocinadores; administradores veem todos. Sucesso: `200 OK` com `{ "data": [ ...patrocinadores ] }`.
+
+### GET /sponsors/{id}
+
+Sucesso: `200 OK` com o objeto do patrocinador diretamente (sem `data`). Erros: `400`, `401`, `403` (patrocinador de outro gestor), `404`.
+
+### PATCH /sponsors/{id}
+
+Aceita qualquer subconjunto (ao menos um campo) dos campos do cadastro, com as mesmas validações. Se `courtIds` for enviado, substitui os vínculos atuais e as quadras devem pertencer ao gestor do patrocinador. Sucesso: `200 OK` com o objeto do patrocinador. Erros: `400`, `401`, `403`, `404`, `409`.
+
+### DELETE /sponsors/{id}
+
+Sucesso: `200 OK` com `{ "message": "Patrocinador excluído com sucesso" }`. Erros: `401`, `403`, `404`.
+
+## 15. Métricas do administrador
 
 ### GET /admin/metrics
 
@@ -468,7 +565,7 @@ Sucesso: `200 OK`
 
 Erros: `401`, `403`.
 
-## 15. Métricas do gestor
+## 16. Métricas do gestor
 
 ### GET /manager/metrics
 
@@ -493,7 +590,7 @@ Sucesso: `200 OK`
 
 Erros: `401`, `403`.
 
-## 16. Solicitar cadastro como gestor
+## 17. Solicitar cadastro como gestor
 
 ### POST /manager-requests
 
@@ -532,7 +629,7 @@ Sucesso: `201 Created`
 
 Erros: `400` (dados inválidos), `401`, `409` (usuário ou documento já vinculado a um gestor, ou solicitação pendente existente).
 
-## 17. Analisar solicitação de gestor
+## 18. Analisar solicitação de gestor
 
 ### PATCH /manager-requests/{id}
 
