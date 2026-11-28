@@ -95,7 +95,7 @@ cd pi2-backend
 cp .env.example .env
 ```
 
-Ajuste `BETTER_AUTH_SECRET` (e `TRUSTED_ORIGINS`/`BETTER_AUTH_URL` se for expor fora de `localhost`) antes de qualquer uso além do ambiente local.
+Preencha `BETTER_AUTH_SECRET`, que vem vazio. Sem ela, o `docker compose up` falha. Se for expor fora de `localhost`, ajuste também `CORS_ORIGINS` e `BETTER_AUTH_URL`. A referência de todas as variáveis é o `.env.example` do backend.
 
 **Opção A — Docker** (sobe Postgres **e** a API, ambos em containers):
 
@@ -103,14 +103,15 @@ Ajuste `BETTER_AUTH_SECRET` (e `TRUSTED_ORIGINS`/`BETTER_AUTH_URL` se for expor 
 docker compose up --build
 ```
 
-**Opção B — Local** (requer um PostgreSQL 16+ rodando e as variáveis `DATABASE_URL`/`AUTH_DATABASE_URL`/`REPLAY_DATABASE_URL` do `.env` apontando para ele):
+**Opção B — Local** (a API roda fora do Docker e lê o `.env`; o `DATABASE_URL` precisa apontar para um PostgreSQL 16+):
 
 ```bash
 npm ci
+docker compose up -d db   # opcional: só o Postgres do compose, em localhost:${POSTGRES_PORT}
 npm run dev
 ```
 
-API em `http://localhost:3000` (porta configurável em `BACKEND_PORT`). Health check em `/health`.
+API em `http://localhost:3000` (no Docker, a porta publicada vem de `BACKEND_PORT`). Health check em `/api/health`.
 
 ### 3. Frontend ([pi2-frontend](https://github.com/PI2-2026-2-equipe-03/pi2-frontend))
 
@@ -143,7 +144,8 @@ Interface em `http://localhost:5173`. O Vite proxia as chamadas `/api` para o ba
 | Páginas continuam exibindo dados mock mesmo com a API no ar | `VITE_USE_MOCKS` ficou em `true` | Ajuste para `false` no `.env` do `pi2-frontend` e recrie o container (`docker compose up --build`) |
 | API responde mas DB diz "relation does not exist" | Volume do Postgres já existia sem schema | No `pi2-backend`: `docker compose down -v && docker compose up --build` — os scripts em `src/db/init/` só rodam na primeira inicialização do volume |
 | Alterações no código não refletem (Docker) | Watcher não detecta mudança | Confirmar bind mount e `CHOKIDAR_USEPOLLING=true` (frontend); reiniciar o serviço |
-| Backend reclama de `DATABASE_URL`/`AUTH_DATABASE_URL`/`REPLAY_DATABASE_URL` não definida | `.env` sem o bloco de banco | Copie novamente o `.env.example` do `pi2-backend` |
+| Backend reclama de `DATABASE_URL` não definida | `.env` sem o bloco de banco | Copie novamente o `.env.example` do `pi2-backend` |
+| `docker compose up` falha com `required variable … is missing a value` | Variável obrigatória ausente ou vazia no `.env` do `pi2-backend` | Preencha a variável indicada na mensagem (ver `.env.example`) |
 | Backend não conecta no DB (modo Docker) | Serviço `db` ainda inicializando | O compose usa `depends_on: service_healthy`; se persistir, `docker compose logs db` |
 | Precisa resetar tudo | Volumes/imagens corrompidos | `docker compose down -v && docker compose build --no-cache`, no repositório afetado |
 
