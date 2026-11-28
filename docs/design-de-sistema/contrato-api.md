@@ -444,7 +444,7 @@ O replay nasce `pendente`, com `duration` fixa de 30 s, `expiresAt` 168 h após 
 
 Status possíveis: `pendente`, `disponivel`, `excluido`.
 
-Erros: `400` (`courtId` inválido ou campos extras, como `duration`), `401`, `403` (quadra de outro gestor), `404` (quadra não encontrada), `409` (menos de 30 s desde o último replay da quadra; acionamentos simultâneos são serializados), `422` (quadra indisponível).
+Erros: `400` (`courtId` inválido ou campos extras, como `duration`), `401`, `403` (quadra de outro gestor), `404` (quadra não encontrada), `409` (menos de 10 s desde o último replay da quadra; acionamentos simultâneos são serializados), `422` (quadra indisponível).
 
 ## 12. Baixar replay
 

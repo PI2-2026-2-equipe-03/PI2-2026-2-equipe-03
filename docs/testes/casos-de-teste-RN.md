@@ -231,11 +231,11 @@
 | **Identificador** | CT-RN-008 |
 | **Suíte de Teste** | ST-RN-08: Acesso e Download de Replays |
 | **Autor** | Rick |
-| **Regra Coberta** | RN-08 (Download apenas por usuários logados e intervalo de 30s entre acionamentos) |
+| **Regra Coberta** | RN-08 (Download apenas por usuários logados e intervalo de 10s entre acionamentos) |
 | **Requisito Funcional** | RF-06 (Baixar vídeos), RF-05 (Gravar vídeo) |
 | **Importância** | Alta |
 
-*   **Resumo:** Verificar se usuários anônimos são impedidos de baixar vídeos e validar a trava de 30 segundos entre cliques consecutivos na quadra para prevenir replays sobrepostos.
+*   **Resumo:** Verificar se usuários anônimos são impedidos de baixar vídeos e validar a trava de 10 segundos entre cliques consecutivos na quadra para prevenir replays sobrepostos.
 *   **Pré-condições:** Vídeo de replay disponível no storage; botão de gravação da quadra conectado à API.
 
 ###### Passos de Execução
@@ -244,7 +244,7 @@
 | **1** | Tentar efetuar requisição de download direto em `GET /api/replays/{id}/download` sem cookies ou token de autenticação. | A requisição é imediatamente barrada com HTTP 401 Unauthorized. |
 | **2** | Autenticar-se com perfil de Atleta cadastrado e solicitar o download do mesmo replay. | A requisição é autorizada com HTTP 200 OK, disponibilizando o arquivo .mp4 para download. |
 | **3** | Na quadra, acionar o botão de gravação para salvar os últimos 30 segundos de um lance. | A solicitação é aceita e o clipe é gerado com sucesso. |
-| **4** | Acionar o botão novamente em intervalo inferior a 30 segundos (ex: 5 segundos após o primeiro clique). | O sistema identifica acionamento concorrente dentro da janela de buffer e ignora/rejeita o disparo para evitar mídias duplicadas. |
+| **4** | Acionar o botão novamente em intervalo inferior a 10 segundos (ex: 5 segundos após o primeiro clique). | O sistema identifica acionamento concorrente dentro da janela de buffer e ignora/rejeita o disparo para evitar mídias duplicadas. |
 
 ###### Registro de Execução
 | Testador | Data | Status | Defeito (Issue) | Observações |
